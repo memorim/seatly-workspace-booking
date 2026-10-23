@@ -61,7 +61,7 @@ function BookingPanel({ space, onClose }: { space: Space; onClose?: () => void }
 
   return <aside className="booking-panel">
     {onClose && <button className="close-panel" onClick={onClose}><X /></button>}
-    {success ? <div className="booking-success"><span><Check /></span><p className="kicker">Готово</p><h2>Пространство<br />забронировано</h2><p>{dates.find(d => d.date === date)?.number} июля, {start}–{end}<br />Подтверждение отправлено на почту.</p><button className="dark-button" onClick={() => { setSuccess(false); setForm(false); }}>Вернуться к выбору</button></div> : <>
+    {success ? <div className="booking-success"><span><Check /></span><p className="kicker">Готово</p><h2>Демо-бронирование<br />сохранено</h2><p>{dates.find(d => d.date === date)?.number} июля, {start}–{end}<br />Это учебный сценарий: письма не отправляются.</p><button className="dark-button" onClick={() => { setSuccess(false); setForm(false); }}>Вернуться к выбору</button></div> : <>
       <div className="booking-heading"><div><p className="kicker">Ваш выбор</p><h2>{space.name}</h2></div><span><Star fill="currentColor" />{space.rating}</span></div>
       <p className="booking-address"><MapPin />{space.address}</p>
       <div className="date-section"><label>Дата <span>Июль 2026 <ChevronDown /></span></label><div className="date-strip">{dates.map(item => <button key={item.date} className={date === item.date ? 'active' : ''} onClick={() => setDate(item.date)}><span>{item.day}</span><strong>{item.number}</strong></button>)}</div></div>
@@ -91,7 +91,7 @@ export default function App() {
         {loading ? <div className="catalog-loader"><span /><p>Подбираем пространства…</p></div> : <div className="space-grid">{visible.map(space => <SpaceCard key={space.id} space={space} selected={selected?.id === space.id} onSelect={() => { setSelected(space); if (window.innerWidth < 980) setMobilePanel(true); }} />)}</div>}
         {!loading && visible.length === 0 && <div className="empty"><Building2 /><h3>Ничего не нашли</h3><p>Попробуйте другой район или тип пространства.</p><button onClick={() => { setType('Все'); setQuery(''); }}>Сбросить фильтры</button></div>}
       </div>{selected && <BookingPanel space={selected} />}</section>
-      <section className="how" id="how"><p className="kicker">Три простых шага</p><h2>Встреча начинается<br />с подходящего места.</h2><div><article><span>01</span><h3>Выберите</h3><p>Найдите пространство по району, формату и вместимости.</p></article><article><span>02</span><h3>Забронируйте</h3><p>Укажите время и получите подтверждение на почту.</p></article><article><span>03</span><h3>Приходите</h3><p>Администратор встретит вас и покажет всё необходимое.</p></article></div></section>
+      <section className="how" id="how"><p className="kicker">Три простых шага</p><h2>Встреча начинается<br />с подходящего места.</h2><div><article><span>01</span><h3>Выберите</h3><p>Найдите пространство по району, формату и вместимости.</p></article><article><span>02</span><h3>Забронируйте</h3><p>Укажите время и сохраните демо-бронирование.</p></article><article><span>03</span><h3>Приходите</h3><p>Администратор встретит вас и покажет всё необходимое.</p></article></div></section>
     </main>
     {mobilePanel && selected && <div className="mobile-booking"><BookingPanel space={selected} onClose={() => setMobilePanel(false)} /></div>}
   </div>;

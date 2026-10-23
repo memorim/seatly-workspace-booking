@@ -41,7 +41,8 @@ export function createApp(db: Db = createDatabase()): Express {
 
   app.get('/api/spaces/:id/availability', (req, res) => {
     const date = typeof req.query.date === 'string' ? req.query.date : '';
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return res.status(400).json({ message: 'Укажите дату' });
+    if (!bookingSchema.shape.bookingDate.safeParse(date).success) return res.status(400).json({ message: 'Укажите корректную дату' });
+    if (!db.prepare('SELECT id FROM spaces WHERE id = ?').get(Number(req.params.id))) return res.status(404).json({ message: 'Пространство не найдено' });
     const bookings = db.prepare(`SELECT start_time, end_time FROM bookings WHERE space_id = ? AND booking_date = ? AND status = 'confirmed' ORDER BY start_time`).all(Number(req.params.id), date);
     res.json({ date, bookings });
   });

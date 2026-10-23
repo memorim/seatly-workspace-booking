@@ -28,3 +28,22 @@ describe('Seatly API', () => {
   });
 });
 
+
+
+describe('invalid bookings and calendar boundaries', () => {
+  it('rejects an impossible calendar date', async () => {
+    assert.equal((await request(app).get('/api/spaces/1/availability?date=2030-02-30')).status, 400);
+  });
+  it('returns 404 for an unknown space', async () => {
+    assert.equal((await request(app).get('/api/spaces/999/availability?date=2030-01-10')).status, 404);
+  });
+  it('rejects reversed intervals and malformed email', async () => {
+    assert.equal((await request(app).post('/api/bookings').send({ ...valid, endTime:'09:00' })).status, 400);
+    assert.equal((await request(app).post('/api/bookings').send({ ...valid, guestEmail:'invalid' })).status, 400);
+  });
+  it('allows adjacent bookings and calculates a half-hour fraction', async () => {
+    const response=await request(app).post('/api/bookings').send({ ...valid, bookingDate:'2030-01-10', startTime:'10:00', endTime:'11:30' });
+    assert.equal(response.status,201); assert.equal(response.body.totalPrice,2700);
+    assert.equal((await request(app).post('/api/bookings').send({ ...valid, bookingDate:'2030-01-10', startTime:'11:30', endTime:'12:30' })).status,201);
+  });
+});

@@ -1,0 +1,171 @@
+{
+  "spaces": [
+    {
+      "id": 3,
+      "name": "Quiet Corner",
+      "type": "Кабинет",
+      "district": "Арбат",
+      "address": "Калашный пер., 7",
+      "capacity": 3,
+      "hourly_price": 950,
+      "rating": 5,
+      "reviews": 19,
+      "image": "quiet",
+      "accent": "#55716e",
+      "amenities": [
+        "Монитор",
+        "Принтер",
+        "Кофе",
+        "Тишина"
+      ],
+      "description": "Тихий закрытый кабинет для созвонов, интервью и глубокой индивидуальной работы."
+    },
+    {
+      "id": 5,
+      "name": "North Boardroom",
+      "type": "Переговорная",
+      "district": "Белорусская",
+      "address": "Лесная, 20",
+      "capacity": 14,
+      "hourly_price": 2600,
+      "rating": 4.9,
+      "reviews": 62,
+      "image": "north",
+      "accent": "#6f7394",
+      "amenities": [
+        "Экран 75″",
+        "Видеосвязь",
+        "Флипчарт",
+        "Парковка"
+      ],
+      "description": "Просторная переговорная для стратегических сессий и встреч с клиентами."
+    },
+    {
+      "id": 1,
+      "name": "Olive Room",
+      "type": "Переговорная",
+      "district": "Хамовники",
+      "address": "Большой Саввинский, 12",
+      "capacity": 8,
+      "hourly_price": 1800,
+      "rating": 4.9,
+      "reviews": 48,
+      "image": "olive",
+      "accent": "#7f9274",
+      "amenities": [
+        "Экран 55″",
+        "Маркерная доска",
+        "Кофе",
+        "Видеосвязь"
+      ],
+      "description": "Светлая переговорная с видом на набережную и всем необходимым для командной встречи."
+    },
+    {
+      "id": 6,
+      "name": "Lumen Desk",
+      "type": "Рабочее место",
+      "district": "Павелецкая",
+      "address": "Дербеневская наб., 7",
+      "capacity": 1,
+      "hourly_price": 450,
+      "rating": 4.8,
+      "reviews": 86,
+      "image": "lumen",
+      "accent": "#d08458",
+      "amenities": [
+        "Монитор",
+        "Эргокресло",
+        "Локер",
+        "24/7"
+      ],
+      "description": "Закреплённое рабочее место в спокойной зоне современного коворкинга."
+    },
+    {
+      "id": 2,
+      "name": "Forma Hall",
+      "type": "Лофт",
+      "district": "Пресня",
+      "address": "Звенигородское ш., 3",
+      "capacity": 24,
+      "hourly_price": 3200,
+      "rating": 4.8,
+      "reviews": 31,
+      "image": "forma",
+      "accent": "#ba694e",
+      "amenities": [
+        "Проектор",
+        "Звук",
+        "Кухня",
+        "Климат"
+      ],
+      "description": "Трансформируемый зал для воркшопов, презентаций и камерных событий."
+    },
+    {
+      "id": 4,
+      "name": "Terra Studio",
+      "type": "Студия",
+      "district": "Басманный",
+      "address": "Покровка, 29",
+      "capacity": 12,
+      "hourly_price": 2400,
+      "rating": 4.7,
+      "reviews": 26,
+      "image": "terra",
+      "accent": "#b99558",
+      "amenities": [
+        "Циклорама",
+        "Импульсный свет",
+        "Гримёрная",
+        "Wi-Fi"
+      ],
+      "description": "Минималистичная студия с естественным светом для съёмок и креативных сессий."
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "space_id": 1,
+      "guest_name": "Дарья Волкова",
+      "guest_email": "demo@seatly.ru",
+      "booking_date": "2026-07-06",
+      "start_time": "10:00",
+      "end_time": "12:00",
+      "guests": 5,
+      "total_price": 3600,
+      "status": "confirmed",
+      "created_at": "2026-07-03T12:10:00",
+      "space_name": "Olive Room",
+      "address": "Большой Саввинский, 12"
+    },
+    {
+      "id": 2,
+      "space_id": 1,
+      "guest_name": "Олег Миронов",
+      "guest_email": "oleg@example.ru",
+      "booking_date": "2026-07-06",
+      "start_time": "15:00",
+      "end_time": "17:00",
+      "guests": 4,
+      "total_price": 3600,
+      "status": "confirmed",
+      "created_at": "2026-07-03T16:40:00",
+      "space_name": "Olive Room",
+      "address": "Большой Саввинский, 12"
+    },
+    {
+      "id": 3,
+      "space_id": 2,
+      "guest_name": "Studio Demo",
+      "guest_email": "team@example.ru",
+      "booking_date": "2026-07-07",
+      "start_time": "11:00",
+      "end_time": "14:00",
+      "guests": 16,
+      "total_price": 9600,
+      "status": "confirmed",
+      "created_at": "2026-07-02T10:00:00",
+      "space_name": "Forma Hall",
+      "address": "Звенигородское ш., 3"
+    }
+  ]
+}
