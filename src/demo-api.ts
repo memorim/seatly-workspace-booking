@@ -1,3 +1,4 @@
+import type {BookingFilters} from './pagination';
 import { z } from 'zod';
 import initial from './demo-data.json';
 import {bookingSchema,slotSchema,priceFor,HOLD_MS} from './booking-rules';
@@ -5,7 +6,7 @@ import type { Space, BusySlot, BookingResult, User, Booking as SavedBooking } fr
 
 const key = 'seatly-browser-demo-v1';
 const schema=bookingSchema;
-type Booking=z.infer<typeof schema>&BookingResult&{userId?:number;expiresAt?:string};
+type Booking=z.infer<typeof schema>&BookingResult&{userId?:number;expiresAt?:string;requestKey?:string;requestPayload?:string;requestResult?:BookingResult};
 const bookings=():Booking[]=>{
  const all:Booking[]=JSON.parse(localStorage.getItem(key)||'[]');let changed=false;
  for(const b of all)if(b.status==='pending'){
@@ -31,6 +32,7 @@ export const demoApi = {
     const user = currentUser(); if (!user) throw new Error('Войдите в демо');
     return bookings().filter(b => user.role === 'owner' || b.userId === user.id).map(b => ({ id: b.id, space_id: b.spaceId, space_name: initial.spaces.find(s => s.id === b.spaceId)?.name || '', booking_date: b.bookingDate, start_time: b.startTime, end_time: b.endTime, total_price: b.totalPrice, status: b.status, guest_name: b.guestName, user_id: b.userId || 0,guests:b.guests,expires_at:b.expiresAt }));
   },
+  bookingPage:async(filters:BookingFilters={})=>{const all=(await demoApi.bookings()).filter(b=>(!filters.status||b.status===filters.status)&&(!filters.search||`${b.space_name} ${b.guest_name}`.toLowerCase().includes(filters.search.toLowerCase().trim()))).sort((a,b)=>b.booking_date.localeCompare(a.booking_date)||b.id-a.id);const limit=filters.limit||40,offset=filters.offset||0;return{items:all.slice(offset,offset+limit),total:all.length,limit,offset};},
   cancel: async (id: number) => {
     const user = currentUser(); const all = bookings(); const b = all.find(b => b.id === id);
     if (!user || !b || (user.role !== 'owner' && b.userId !== user.id)) throw new Error('Бронирование не найдено');
@@ -59,18 +61,19 @@ export const demoApi = {
       ...bookings().filter(b => b.spaceId === id && b.bookingDate === date && active(b)).map(b => ({ start_time: b.startTime, end_time: b.endTime })),
     ],
   }),
-  book: async (data: object): Promise<BookingResult> => {
+  book: async (data: object,requestKey?:string): Promise<BookingResult> => {
     const user = currentUser(); if (!user) throw new Error('Войдите в личный кабинет');
     const parsed = schema.safeParse(data);
     if (!parsed.success) throw new Error('Проверьте данные бронирования');
-    const b = parsed.data;
+    const b=parsed.data,payload=JSON.stringify(b),scope=user.id+':'+requestKey;
+    const prior=requestKey?bookings().find(b=>b.requestKey===scope):undefined;if(prior){if(prior.requestPayload!==payload)throw new Error('Ключ уже использован с другими данными');return prior.requestResult!;}
     const space=initial.spaces.find(s=>s.id===b.spaceId);if(!space)throw new Error('Пространство не найдено');
     const total=priceFor(space,b);
     const busy = await demoApi.availability(b.spaceId, b.bookingDate);
     if (busy.bookings.some(slot => slot.start_time < b.endTime && slot.end_time > b.startTime)) throw new Error('Это время уже занято');
-    const all = bookings();
+    const all=bookings(),previous=requestKey?all.find(b=>b.requestKey===scope):undefined;if(previous){if(previous.requestPayload!==payload)throw new Error('Ключ уже использован с другими данными');return previous.requestResult!;}
     const result = { id: Math.max(0, ...all.map(b => b.id)) + 1, totalPrice: total, status: 'pending',expiresAt:new Date(Date.now()+HOLD_MS).toISOString() };
-    localStorage.setItem(key, JSON.stringify([...all, { ...b, ...result, userId: user.id }]));
+    localStorage.setItem(key, JSON.stringify([...all, { ...b, ...result, userId: user.id,...(requestKey?{requestKey:scope,requestPayload:payload,requestResult:result}:{}) }]));
     return result;
   },
 };

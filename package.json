@@ -14,7 +14,9 @@
     "build:demo": "tsc -b && vite build --mode demo",
     "test:e2e": "playwright test",
     "measure": "node --import tsx scripts/measure.ts",
-    "build:hosted": "tsc -b && vite build --mode hosted --base /seatly/ --outDir dist-hosted"
+    "build:hosted": "tsc -b && vite build --mode hosted --base /seatly/ --outDir dist-hosted",
+    "measure:scale": "node --import tsx scripts/scale.ts",
+    "backup": "node --import tsx server/backup.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -18,3 +18,9 @@
 .hosted-note{background:#e5eadc;color:#31402d;padding:12px 24px;font-size:13px;line-height:1.6}.reschedule-form{display:grid;gap:12px;padding:16px 0}.reschedule-form label{display:grid;gap:6px}.reschedule-form input{padding:10px;border:1px solid #a7ada2;border-radius:6px;max-width:100%;min-width:0}.reschedule-form>div{display:flex;flex-wrap:wrap;gap:10px}:focus-visible{outline:3px solid #426458;outline-offset:3px}
 
 .account-dialog{overflow-wrap:anywhere}.account-dialog header{align-items:flex-start;gap:12px}.account-dialog header h2{min-width:0;flex:1;font-size:clamp(19px,5vw,26px)}.account-dialog header button{flex-shrink:0}.account-dialog form,.account-dialog label{min-width:0}.account-dialog input,.account-dialog select{min-width:0;width:100%;max-width:100%}.account-dialog .booking-record button{white-space:normal;text-align:left}
+
+.booking-filters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.pagination{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0;font-size:12px}@media(max-width:500px){.booking-filters{grid-template-columns:1fr}}
+
+.guided-demo>p{font-size:14px;line-height:1.7}.guided-demo>button{margin-top:14px}.demo-launch{padding:15px 36px 0;display:flex;justify-content:flex-end}@media(max-width:500px){.demo-launch{padding:12px 18px 0}}
+
+button,input,select{min-height:24px}button{min-width:24px}input:focus-visible,textarea:focus-visible{outline:3px solid #b54b27;outline-offset:3px}

@@ -1,0 +1,41 @@
+{
+  "kind": "synthetic-sqlite-scale",
+  "date": "2026-10-24T04:48:11.886Z",
+  "node": "v24.18.0",
+  "platform": "win32",
+  "synthetic_records": 10000,
+  "page_size": 40,
+  "non_overlapping_pages": true,
+  "filtered_matches": 1,
+  "before": {
+    "p50_ms": 2.5352,
+    "p95_ms": 3.1715,
+    "plan": [
+      {
+        "id": 4,
+        "parent": 0,
+        "notused": 216,
+        "detail": "SCAN bookings"
+      },
+      {
+        "id": 21,
+        "parent": 0,
+        "notused": 0,
+        "detail": "USE TEMP B-TREE FOR ORDER BY"
+      }
+    ]
+  },
+  "after": {
+    "p50_ms": 0.0501,
+    "p95_ms": 0.0747,
+    "plan": [
+      {
+        "id": 5,
+        "parent": 0,
+        "notused": 61,
+        "detail": "SEARCH bookings USING INDEX bookings_user_status_date (user_id=? AND status=?)"
+      }
+    ]
+  },
+  "limits": "Fresh in-memory SQLite; query microbenchmark and loopback API correctness, not hosted capacity or real users."
+}

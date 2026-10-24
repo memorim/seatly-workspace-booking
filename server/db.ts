@@ -33,6 +33,11 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
     CREATE TRIGGER IF NOT EXISTS prevent_booking_update_overlap BEFORE UPDATE ON bookings
     WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE id!=NEW.id AND space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)
     BEGIN SELECT RAISE(ABORT, 'booking_overlap'); END;`);
+  for(const column of ['request_key','request_payload','create_result']){
+    if(!(db.prepare('PRAGMA table_info(bookings)').all() as {name:string}[]).some(c=>c.name===column))db.exec(`ALTER TABLE bookings ADD COLUMN ${column} TEXT`);
+  }
+  db.exec('CREATE UNIQUE INDEX IF NOT EXISTS bookings_request_key ON bookings(request_key)');
+  db.exec('CREATE INDEX IF NOT EXISTS bookings_user_status_date ON bookings(user_id,status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_status_date ON bookings(status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_expiry ON bookings(status,expires_at);');
   const count = db.prepare('SELECT COUNT(*) count FROM spaces').get() as { count: number };
   if (!count.count) db.exec(`
     INSERT INTO spaces VALUES

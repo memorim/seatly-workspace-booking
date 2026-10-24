@@ -57,3 +57,7 @@ pnpm start
 [Искусственные сценарии](docs/SYNTHETIC_TESTING.md) · [Замеры](docs/SYNTHETIC_METRICS.json) · [Подготовка к собеседованию](docs/INTERVIEW.md)
 
 `pnpm measure` повторяет локальное измерение HTTP. `pnpm build:hosted` создаёт клиент для `/seatly/` и `/api/seatly`; API адаптер размещён вместе с демонстрацией Flowboard. `hosting/` содержит выдержки серверного адаптера и схемы, не самостоятельный deploy-проект.
+
+## Повторы, демонстрация и журнал
+
+[Проверки надёжности, большие данные и резервное копирование](docs/ROUND3.md).

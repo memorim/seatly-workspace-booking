@@ -19,10 +19,10 @@ test('guest booking, independent owner confirmation and cancellation survive rel
  const ownerContext=await browser.newContext({baseURL});const owner=await ownerContext.newPage();await owner.goto('/');await login(owner,'owner');
  await owner.getByRole('button',{name:'Демо-владелец',exact:true}).click();
  const ownerDialog=owner.getByRole('dialog');await ownerDialog.getByRole('button',{name:/Подтвердить бронирование/}).click();
- await expect(ownerDialog.getByText('Ожидает подтверждения',{exact:true})).toHaveCount(0);
+ await expect(ownerDialog.locator('.booking-record').getByText('Ожидает подтверждения',{exact:true})).toHaveCount(0);
  await page.reload();await page.getByRole('button',{name:'Демо-гость',exact:true}).click();
- const dialog=page.getByRole('dialog');await expect(dialog.getByText('Подтверждено',{exact:true})).toBeVisible();
- await dialog.getByRole('button',{name:/Перенести бронирование/}).click();await dialog.getByLabel('Новое начало',{exact:true}).fill('14:00');await dialog.getByLabel('Новое окончание',{exact:true}).fill('15:30');await dialog.getByRole('button',{name:'Сохранить перенос',exact:true}).click();await expect(dialog.getByText('Ожидает подтверждения',{exact:true})).toBeVisible();await expect(dialog.locator('.booking-record').filter({hasText:'Ожидает подтверждения'}).getByText(/14:00–15:30/)).toBeVisible();await dialog.getByRole('button',{name:/Отменить бронирование/}).click();await expect(dialog.getByText('Отменено',{exact:true}).last()).toBeVisible();
+ const dialog=page.getByRole('dialog');await expect(dialog.locator('.booking-record').getByText('Подтверждено',{exact:true})).toBeVisible();
+ await dialog.getByRole('button',{name:/Перенести бронирование/}).click();await dialog.getByLabel('Новое начало',{exact:true}).fill('14:00');await dialog.getByLabel('Новое окончание',{exact:true}).fill('15:30');await dialog.getByRole('button',{name:'Сохранить перенос',exact:true}).click();await expect(dialog.locator('.booking-record').getByText('Ожидает подтверждения',{exact:true})).toBeVisible();await expect(dialog.locator('.booking-record').filter({hasText:'Ожидает подтверждения'}).getByText(/14:00–15:30/)).toBeVisible();await dialog.getByRole('button',{name:/Отменить бронирование/}).click();await expect(dialog.locator('.booking-record').getByText('Отменено',{exact:true}).last()).toBeVisible();
  await ownerContext.close();
 });
 test('a failed catalog request is visible and can be retried',async({page})=>{
