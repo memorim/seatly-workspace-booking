@@ -1,0 +1,119 @@
+[
+  {
+    "method": "get",
+    "path": "/api/session",
+    "status": 200,
+    "body": {
+      "mode": "string",
+      "user": {
+        "email": "string",
+        "id": "number",
+        "name": "string",
+        "role": "string"
+      }
+    }
+  },
+  {
+    "method": "get",
+    "path": "/api/spaces",
+    "status": 200,
+    "body": [
+      {
+        "accent": "string",
+        "address": "string",
+        "amenities": [
+          "string"
+        ],
+        "capacity": "number",
+        "description": "string",
+        "district": "string",
+        "hourly_price": "number",
+        "id": "number",
+        "image": "string",
+        "name": "string",
+        "rating": "number",
+        "reviews": "number",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "method": "get",
+    "path": "/api/bookings/page",
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "address": "string",
+          "booking_date": "string",
+          "end_time": "string",
+          "expires_at": "string",
+          "guest_name": "string",
+          "guests": "number",
+          "id": "number",
+          "space_id": "number",
+          "space_name": "string",
+          "start_time": "string",
+          "status": "string",
+          "total_price": "number",
+          "user_id": "number|null"
+        }
+      ],
+      "limit": "number",
+      "offset": "number",
+      "total": "number"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/api/bookings",
+    "status": 201,
+    "body": {
+      "bookingDate": "string",
+      "endTime": "string",
+      "expiresAt": "string",
+      "guestEmail": "string",
+      "guestName": "string",
+      "guests": "number",
+      "id": "number",
+      "spaceId": "number",
+      "startTime": "string",
+      "status": "string",
+      "totalPrice": "number"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/api/bookings",
+    "status": 400,
+    "body": {
+      "issues": {
+        "fieldErrors": {
+          "bookingDate": [
+            "string"
+          ],
+          "endTime": [
+            "string"
+          ],
+          "guestEmail": [
+            "string"
+          ],
+          "guestName": [
+            "string"
+          ],
+          "guests": [
+            "string"
+          ],
+          "spaceId": [
+            "string"
+          ],
+          "startTime": [
+            "string"
+          ]
+        },
+        "formErrors": []
+      },
+      "message": "string"
+    }
+  }
+]

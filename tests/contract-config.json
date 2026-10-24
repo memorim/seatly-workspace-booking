@@ -1,0 +1,51 @@
+{
+  "databaseModule": "server/db.ts",
+  "appModule": "server/app.ts",
+  "endpoints": [
+    {
+      "path": "/api/session"
+    },
+    {
+      "path": "/api/spaces"
+    },
+    {
+      "path": "/api/bookings/page"
+    },
+    {
+      "method": "post",
+      "path": "/api/bookings",
+      "status": 201,
+      "body": {
+        "spaceId": 2,
+        "guestName": "Contract record",
+        "guestEmail": "contract@example.com",
+        "bookingDate": "2030-01-10",
+        "startTime": "15:00",
+        "endTime": "16:00",
+        "guests": 1
+      }
+    },
+    {
+      "method": "post",
+      "path": "/api/bookings",
+      "status": 400,
+      "body": {}
+    }
+  ],
+  "login": {
+    "email": "guest@seatly.example",
+    "password": "GuestDemo2026!"
+  },
+  "setup": {
+    "path": "/api/bookings",
+    "body": {
+      "spaceId": 1,
+      "guestName": "Contract check",
+      "guestEmail": "contract@example.com",
+      "bookingDate": "2030-01-10",
+      "startTime": "10:00",
+      "endTime": "11:00",
+      "guests": 1
+    }
+  }
+}
