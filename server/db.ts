@@ -7,6 +7,7 @@ export type Db = DatabaseSync;
 export function createDatabase(filename = resolve('data', 'seatly.db')) {
   if (filename !== ':memory:') mkdirSync(dirname(filename), { recursive: true });
   const db = new DatabaseSync(filename);
+  db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
   db.exec(`
     PRAGMA foreign_keys = ON;
     CREATE TABLE IF NOT EXISTS spaces (
@@ -22,6 +23,14 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
       total_price INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'confirmed', created_at TEXT NOT NULL
     );
   `);
+  if (!(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(c => c.name === 'user_id')) db.exec('ALTER TABLE bookings ADD COLUMN user_id INTEGER;');
+  db.exec(`CREATE INDEX IF NOT EXISTS bookings_slot ON bookings(space_id, booking_date, status);
+    CREATE TRIGGER IF NOT EXISTS prevent_booking_overlap BEFORE INSERT ON bookings
+    WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)
+    BEGIN SELECT RAISE(ABORT, 'booking_overlap'); END;
+    CREATE TRIGGER IF NOT EXISTS prevent_booking_update_overlap BEFORE UPDATE ON bookings
+    WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE id!=NEW.id AND space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)
+    BEGIN SELECT RAISE(ABORT, 'booking_overlap'); END;`);
   const count = db.prepare('SELECT COUNT(*) count FROM spaces').get() as { count: number };
   if (!count.count) db.exec(`
     INSERT INTO spaces VALUES
