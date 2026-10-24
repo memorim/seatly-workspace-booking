@@ -23,7 +23,7 @@ describe('browser demonstration', () => {
     assert.equal((await demoApi.bookings()).length,1);
     await assert.rejects(demoApi.confirm(result.id), /владельца/);
     await demoApi.login('owner@seatly.example',''); await demoApi.confirm(result.id);
-    await demoApi.login('guest@seatly.example',''); await demoApi.cancel(result.id);
+    await demoApi.login('guest@seatly.example','');await demoApi.reschedule(result.id,{bookingDate:booking.bookingDate,startTime:'14:00',endTime:'15:00',guests:2});assert.equal((await demoApi.bookings())[0].status,'pending');assert.equal((await demoApi.bookings())[0].start_time,'14:00');await demoApi.cancel(result.id);
     assert.equal((await demoApi.availability(1,booking.bookingDate)).bookings.length,0);
   });
 });

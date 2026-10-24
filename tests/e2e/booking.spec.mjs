@@ -22,7 +22,7 @@ test('guest booking, independent owner confirmation and cancellation survive rel
  await expect(ownerDialog.getByText('Ожидает подтверждения',{exact:true})).toHaveCount(0);
  await page.reload();await page.getByRole('button',{name:'Демо-гость',exact:true}).click();
  const dialog=page.getByRole('dialog');await expect(dialog.getByText('Подтверждено',{exact:true})).toBeVisible();
- await dialog.getByRole('button',{name:/Отменить бронирование/}).click();await expect(dialog.getByText('Отменено',{exact:true}).last()).toBeVisible();
+ await dialog.getByRole('button',{name:/Перенести бронирование/}).click();await dialog.getByLabel('Новое начало',{exact:true}).fill('14:00');await dialog.getByLabel('Новое окончание',{exact:true}).fill('15:30');await dialog.getByRole('button',{name:'Сохранить перенос',exact:true}).click();await expect(dialog.getByText('Ожидает подтверждения',{exact:true})).toBeVisible();await expect(dialog.locator('.booking-record').filter({hasText:'Ожидает подтверждения'}).getByText(/14:00–15:30/)).toBeVisible();await dialog.getByRole('button',{name:/Отменить бронирование/}).click();await expect(dialog.getByText('Отменено',{exact:true}).last()).toBeVisible();
  await ownerContext.close();
 });
 test('a failed catalog request is visible and can be retried',async({page})=>{

@@ -24,6 +24,8 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
     );
   `);
   if (!(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(c => c.name === 'user_id')) db.exec('ALTER TABLE bookings ADD COLUMN user_id INTEGER;');
+  if (!(db.prepare('PRAGMA table_info(bookings)').all() as {name:string}[]).some(c=>c.name==='expires_at')) db.exec('ALTER TABLE bookings ADD COLUMN expires_at TEXT;');
+  db.prepare("UPDATE bookings SET expires_at=? WHERE status='pending' AND expires_at IS NULL").run(new Date(Date.now()+30*60*1000).toISOString());
   db.exec(`CREATE INDEX IF NOT EXISTS bookings_slot ON bookings(space_id, booking_date, status);
     CREATE TRIGGER IF NOT EXISTS prevent_booking_overlap BEFORE INSERT ON bookings
     WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)

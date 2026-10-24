@@ -4,6 +4,6 @@
     "moduleResolution": "NodeNext", "allowSyntheticDefaultImports": true,
     "strict": true, "noEmit": true, "types": ["node"]
   },
-  "include": ["vite.config.ts", "server/**/*.ts", "tests/**/*.ts"]
+  "include": ["vite.config.ts", "server/**/*.ts", "tests/**/*.ts", "src/booking-rules.ts"]
 }
 

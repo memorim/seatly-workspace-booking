@@ -1,0 +1,15 @@
+{
+  "kind": "synthetic-local-http",
+  "date": "2026-10-24T02:12:44.944Z",
+  "node": "v24.18.0",
+  "platform": "win32",
+  "endpoint": "/api/spaces",
+  "requests": 200,
+  "concurrency": 10,
+  "errors": 0,
+  "p50_ms": 6.33,
+  "p95_ms": 13.65,
+  "p99_ms": 18.01,
+  "elapsed_ms": 153.61,
+  "limits": "Loopback HTTP and fresh in-memory SQLite; not hosted latency, user feedback or production capacity."
+}

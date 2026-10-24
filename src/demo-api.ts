@@ -1,17 +1,20 @@
 import { z } from 'zod';
 import initial from './demo-data.json';
+import {bookingSchema,slotSchema,priceFor,HOLD_MS} from './booking-rules';
 import type { Space, BusySlot, BookingResult, User, Booking as SavedBooking } from './types';
 
 const key = 'seatly-browser-demo-v1';
-const schema = z.object({
-  spaceId: z.number().int().positive(), guestName: z.string().trim().min(2).max(80),
-  guestEmail: z.string().email(), bookingDate: z.string().date(),
-  startTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
-  endTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), guests: z.number().int().positive(),
-});
-type Booking = z.infer<typeof schema> & BookingResult & { userId?: number };
-const bookings = (): Booking[] => JSON.parse(localStorage.getItem(key) || '[]');
-const minutes = (value: string) => Number(value.slice(0, 2)) * 60 + Number(value.slice(3));
+const schema=bookingSchema;
+type Booking=z.infer<typeof schema>&BookingResult&{userId?:number;expiresAt?:string};
+const bookings=():Booking[]=>{
+ const all:Booking[]=JSON.parse(localStorage.getItem(key)||'[]');let changed=false;
+ for(const b of all)if(b.status==='pending'){
+  if(!b.expiresAt){b.expiresAt=new Date(Date.now()+HOLD_MS).toISOString();changed=true;}
+  else if(b.expiresAt<=new Date().toISOString()){b.status='expired';changed=true;}
+ }
+ if(changed)localStorage.setItem(key,JSON.stringify(all));return all;
+};
+const active=(b:Booking)=>['pending','confirmed'].includes(b.status);
 const users: User[] = [{ id: 1, name: 'Демо-гость', email: 'guest@seatly.example', role: 'guest' }, { id: 2, name: 'Демо-владелец', email: 'owner@seatly.example', role: 'owner' }];
 const currentUser = () => users.find(u => u.id === Number(localStorage.getItem('seatly-demo-user'))) || null;
 
@@ -26,7 +29,7 @@ export const demoApi = {
   logout: async () => { localStorage.setItem('seatly-demo-user', ''); },
   bookings: async (): Promise<SavedBooking[]> => {
     const user = currentUser(); if (!user) throw new Error('Войдите в демо');
-    return bookings().filter(b => user.role === 'owner' || b.userId === user.id).map(b => ({ id: b.id, space_id: b.spaceId, space_name: initial.spaces.find(s => s.id === b.spaceId)?.name || '', booking_date: b.bookingDate, start_time: b.startTime, end_time: b.endTime, total_price: b.totalPrice, status: b.status, guest_name: b.guestName, user_id: b.userId || 0 }));
+    return bookings().filter(b => user.role === 'owner' || b.userId === user.id).map(b => ({ id: b.id, space_id: b.spaceId, space_name: initial.spaces.find(s => s.id === b.spaceId)?.name || '', booking_date: b.bookingDate, start_time: b.startTime, end_time: b.endTime, total_price: b.totalPrice, status: b.status, guest_name: b.guestName, user_id: b.userId || 0,guests:b.guests,expires_at:b.expiresAt }));
   },
   cancel: async (id: number) => {
     const user = currentUser(); const all = bookings(); const b = all.find(b => b.id === id);
@@ -39,11 +42,21 @@ export const demoApi = {
     if (!b) throw new Error('Ожидающее бронирование не найдено');
     b.status = 'confirmed'; localStorage.setItem(key, JSON.stringify(all));
   },
+  reschedule:async(id:number,data:object)=>{
+    const user=currentUser(),all=bookings(),b=all.find(b=>b.id===id);
+    if(!user||!b||(user.role!=='owner'&&b.userId!==user.id))throw new Error('Бронирование не найдено');
+    if(!active(b))throw new Error('Перенос доступен для действующей заявки');
+    const parsed=slotSchema.safeParse(data);if(!parsed.success)throw new Error('Проверьте дату, время и количество гостей');
+    const slot=parsed.data,space=initial.spaces.find(s=>s.id===b.spaceId)!;const total=priceFor(space,slot);
+    const conflict=all.some(other=>other.id!==b.id&&other.spaceId===b.spaceId&&other.bookingDate===slot.bookingDate&&active(other)&&other.startTime<slot.endTime&&other.endTime>slot.startTime)||initial.bookings.some(other=>other.space_id===b.spaceId&&other.booking_date===slot.bookingDate&&other.start_time<slot.endTime&&other.end_time>slot.startTime);
+    if(conflict)throw new Error('Новое время занято. Исходное бронирование сохранено.');
+    Object.assign(b,slot,{totalPrice:total,status:'pending',expiresAt:new Date(Date.now()+HOLD_MS).toISOString()});localStorage.setItem(key,JSON.stringify(all));
+  },
   spaces: async (): Promise<Space[]> => structuredClone(initial.spaces),
   availability: async (id: number, date: string): Promise<{ date: string; bookings: BusySlot[] }> => ({
     date, bookings: [
       ...initial.bookings.filter(b => b.space_id === id && b.booking_date === date),
-      ...bookings().filter(b => b.spaceId === id && b.bookingDate === date && b.status !== 'cancelled').map(b => ({ start_time: b.startTime, end_time: b.endTime })),
+      ...bookings().filter(b => b.spaceId === id && b.bookingDate === date && active(b)).map(b => ({ start_time: b.startTime, end_time: b.endTime })),
     ],
   }),
   book: async (data: object): Promise<BookingResult> => {
@@ -51,16 +64,12 @@ export const demoApi = {
     const parsed = schema.safeParse(data);
     if (!parsed.success) throw new Error('Проверьте данные бронирования');
     const b = parsed.data;
-    if (new Date(`${b.bookingDate}T${b.startTime}:00+03:00`).getTime() <= Date.now()) throw new Error('Выберите будущее время по Москве');
-    const space = initial.spaces.find(s => s.id === b.spaceId);
-    if (!space) throw new Error('Пространство не найдено');
-    const start = minutes(b.startTime), end = minutes(b.endTime);
-    if (start < 480 || end > 1320 || end - start < 60) throw new Error('Выберите минимум час между 08:00 и 22:00');
-    if (b.guests > space.capacity) throw new Error(`Максимальная вместимость — ${space.capacity}`);
+    const space=initial.spaces.find(s=>s.id===b.spaceId);if(!space)throw new Error('Пространство не найдено');
+    const total=priceFor(space,b);
     const busy = await demoApi.availability(b.spaceId, b.bookingDate);
     if (busy.bookings.some(slot => slot.start_time < b.endTime && slot.end_time > b.startTime)) throw new Error('Это время уже занято');
     const all = bookings();
-    const result = { id: Math.max(0, ...all.map(b => b.id)) + 1, totalPrice: Math.round((end - start) / 60 * space.hourly_price), status: 'pending' };
+    const result = { id: Math.max(0, ...all.map(b => b.id)) + 1, totalPrice: total, status: 'pending',expiresAt:new Date(Date.now()+HOLD_MS).toISOString() };
     localStorage.setItem(key, JSON.stringify([...all, { ...b, ...result, userId: user.id }]));
     return result;
   },
