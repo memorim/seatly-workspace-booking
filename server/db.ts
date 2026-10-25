@@ -1,15 +1,15 @@
 import { DatabaseSync } from 'node:sqlite';
 import { dirname, resolve } from 'node:path';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync,readFileSync } from 'node:fs';
 
 export type Db = DatabaseSync;
 
 export function createDatabase(filename = resolve('data', 'seatly.db')) {
   if (filename !== ':memory:') mkdirSync(dirname(filename), { recursive: true });
   const db = new DatabaseSync(filename);
-  db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
+  db.exec('PRAGMA foreign_keys=ON; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
+  db.exec('BEGIN IMMEDIATE');try{
   db.exec(`
-    PRAGMA foreign_keys = ON;
     CREATE TABLE IF NOT EXISTS spaces (
       id INTEGER PRIMARY KEY, name TEXT NOT NULL, type TEXT NOT NULL, district TEXT NOT NULL,
       address TEXT NOT NULL, capacity INTEGER NOT NULL, hourly_price INTEGER NOT NULL,
@@ -52,6 +52,8 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
       (1,'Олег Миронов','oleg@example.ru','2026-07-06','15:00','17:00',4,3600,'confirmed','2026-07-03T16:40:00'),
       (2,'Studio Demo','team@example.ru','2026-07-07','11:00','14:00',16,9600,'confirmed','2026-07-02T10:00:00');
   `);
-  return db;
+  db.exec(readFileSync(new URL('./booking-constraints.sql',import.meta.url),'utf8'));
+  db.exec('COMMIT');return db;
+  }catch(error){if(db.isTransaction)db.exec('ROLLBACK');db.close();throw error;}
 }
 

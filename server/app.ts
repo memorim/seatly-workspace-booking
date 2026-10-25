@@ -58,13 +58,15 @@ export function createApp(db: Db = createDatabase(), log?:LogSink): Express {
     const b=parsed.data,payload=JSON.stringify(b),rawKey=req.get('Idempotency-Key');
     if(rawKey!==undefined&&!/^[A-Za-z0-9_-]{8,128}$/.test(rawKey))return res.status(400).json({message:'Некорректный ключ операции'});
     const key=rawKey?res.locals.user.id+':'+rawKey:null;
-    if(key){const previous=db.prepare('SELECT request_payload,create_result FROM bookings WHERE request_key=?').get(key) as {request_payload:string;create_result:string}|undefined;if(previous)return previous.request_payload===payload?res.status(201).json(JSON.parse(previous.create_result)):res.status(409).json({message:'Ключ уже использован с другими данными'});}
-    const space=db.prepare('SELECT * FROM spaces WHERE id=?').get(b.spaceId) as {hourly_price:number;capacity:number}|undefined;
-    if(!space)return res.status(404).json({message:'Пространство не найдено'});
-    let total:number;try{total=priceFor(space,b);}catch(e){return res.status(400).json({message:e instanceof Error?e.message:'Проверьте время'});}
-    const expiresAt=new Date(Date.now()+HOLD_MS).toISOString();
     try {
       db.exec('BEGIN IMMEDIATE');
+      if(key){
+        const previous=db.prepare('SELECT request_payload,create_result FROM bookings WHERE request_key=?').get(key) as {request_payload:string;create_result:string}|undefined;
+        if(previous){db.exec('ROLLBACK');return previous.request_payload===payload?res.status(201).json(JSON.parse(previous.create_result)):res.status(409).json({message:'Ключ уже использован с другими данными'});}
+      }
+      const space=db.prepare('SELECT * FROM spaces WHERE id=?').get(b.spaceId) as {hourly_price:number;capacity:number}|undefined;
+      if(!space){db.exec('ROLLBACK');return res.status(404).json({message:'Пространство не найдено'});}
+      const total=priceFor(space,b),expiresAt=new Date(Date.now()+HOLD_MS).toISOString();
       const result = db.prepare(`INSERT INTO bookings (space_id,guest_name,guest_email,booking_date,start_time,end_time,guests,total_price,status,created_at,user_id,expires_at,request_key,request_payload) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(b.spaceId,b.guestName,b.guestEmail,b.bookingDate,b.startTime,b.endTime,b.guests,total,'pending',new Date().toISOString(),res.locals.user.id,expiresAt,key,key?payload:null);
       const response={id:Number(result.lastInsertRowid),...b,totalPrice:total,status:'pending',expiresAt};
       if(key)db.prepare('UPDATE bookings SET create_result=? WHERE id=?').run(JSON.stringify(response),result.lastInsertRowid);
@@ -72,6 +74,7 @@ export function createApp(db: Db = createDatabase(), log?:LogSink): Express {
       res.status(201).json(response);
     } catch (error) {
       if (db.isTransaction) db.exec('ROLLBACK');
+      if(error instanceof RangeError)return res.status(400).json({message:error.message});
       if (String(error).includes('booking_overlap')) return res.status(409).json({ message: 'Это время уже занято. Выберите другой интервал' });
       res.status(503).json({ message: 'Не удалось сохранить бронирование. Повторите запрос' });
     }
