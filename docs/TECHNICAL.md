@@ -1,3 +1,5 @@
+> Historical note: see [RELIABILITY.md](RELIABILITY.md) and the root README for current expiry and standalone identity restrictions.
+
 # Устройство Seatly
 
 ## Запуск

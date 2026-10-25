@@ -1,3 +1,12 @@
+# Changes
+
+## Unreleased — idle holds and deployment boundaries
+
+- Share indexed expiry logic between request handling and a stopped-on-shutdown idle timer.
+- Reproduce SQLite contention, session/receipt restart persistence and idle expiration.
+- Reject published standalone demo identities in production, on remote peers or rebinding hosts.
+- Add readable formatting and actual ESLint/Prettier CI gates.
+
 # Изменения
 
 ## 1.2.0 — 2026-10-24

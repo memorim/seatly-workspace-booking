@@ -37,7 +37,7 @@ Rules --> SQLite[(SQLite)]
 - Insert/update overlap triggers reject intersecting pending/confirmed intervals. Adjacent intervals are allowed. Separate HTTP servers sharing a SQLite file are tested, rather than only requests handled by one synchronous connection.
 - `server/booking-constraints.sql` also rejects malformed calendar dates, invalid time intervals, excessive capacity and non-positive prices for active bookings. These guards do not rewrite historical rows.
 - The server computes the amount from the stored room price and minute duration; client-supplied totals are not accepted. Reservation ownership and owner-only confirmation are checked on the server.
-- Passwords use scrypt. Random session tokens are stored as SHA-256 hashes; cookies are HttpOnly/SameSite=Strict, and logout revokes the session. Cross-origin writes are rejected.
+- The standalone backend intentionally retains published local demo identities; it rejects production mode, non-loopback HOST and remote/rebinding requests. Native Sites identity is a separate adapter. Passwords use scrypt. Random session tokens are stored as SHA-256 hashes; cookies are HttpOnly/SameSite=Strict, and logout revokes the session. Cross-origin writes are rejected.
 
 ## Local setup
 
@@ -63,6 +63,8 @@ SQLite is stored at `data/seatly.db`. Initialization creates/migrates the schema
 ## Verification
 
 ```bash
+pnpm lint
+pnpm format:check
 pnpm test
 pnpm test:contract
 pnpm test:upgrade
@@ -73,15 +75,15 @@ pnpm test:e2e
 pnpm audit --audit-level=high
 ```
 
-`tests/concurrency.test.ts`: independent SQLite connections and HTTP servers, overlap rejection and identical-key replay. `tests/audit.test.ts`: direct SQL validation and rollback after response persistence fails. Existing auth, expiry, rescheduling, backup and browser tests remain.
+`tests/concurrency.test.ts`: independent SQLite connections and HTTP servers, overlap rejection and identical-key replay. `tests/audit.test.ts`: direct SQL validation and rollback after response persistence fails. `tests/expiry-restart.test.ts` additionally verifies idle cleanup with a controlled clock, stop/error handling, a real second-connection SQLite lock, safe 503/retry, persisted session/idempotency after reopen, and an expired slot becoming bookable. Existing rescheduling, backup and browser tests remain.
 
-CI installs locked dependencies and runs the configured checks; documentation checks also validate local links/images. Python dependency auditing uses `pip-audit --disable-pip --no-deps --strict -r requirements-lock.txt`. A passing scanner only reports known advisories at the time of the run.
+CI installs locked dependencies, checks lint/format, types, unit/API, contract, upgrade, browser engines and build, and scans dependency advisories. A passing scanner is time-specific.
 
 ## Limits and next steps
 
-- The included accounts and sample room catalogue are for a local demonstration. Replace account provisioning and sample credentials before handling real customers.
+- Published accounts are limited to a local demonstration. The standalone entry point fails closed for production or non-loopback HOST before opening the database. Real-customer deployment needs separate account provisioning, transport/security configuration and operational review; setting a different HOST is deliberately insufficient.
 - Booking times use a single fixed Moscow UTC+03:00 zone; multi-zone/DST bookings are not implemented. Prices are rounded to whole roubles. There are no payments.
-- Expired holds are released on API activity. SQLite uses one writer and a bounded busy timeout; this is not a claim about arbitrary distributed replicas.
+- Expired holds are released on API activity and by an idempotent 30-second idle timer in the standalone server. Startup performs a pass; shutdown clears the timer. API correctness does not depend on timer punctuality. Direct SQL writers still need the shared expiry pass before slot allocation. SQLite uses one writer and a 5-second busy timeout; contention returns 503 without partially consuming a request key. This is not a claim about arbitrary distributed replicas.
 - The hosted D1 adapter is a separate deployment. This audit changes the local Node/SQLite implementation and repository extracts; it does not publish a new native Site version.
 
 ## Further documentation

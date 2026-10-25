@@ -6,4 +6,3 @@ export default defineConfig({
   base: './',
   server: { port: 5174, proxy: { '/api': 'http://localhost:4200' } },
 });
-
