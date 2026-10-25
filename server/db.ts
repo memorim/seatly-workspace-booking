@@ -1,16 +1,16 @@
 import { DatabaseSync } from 'node:sqlite';
 import { dirname, resolve } from 'node:path';
-import { mkdirSync,readFileSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 
 export type Db = DatabaseSync;
 
 export function createDatabase(filename = resolve('data', 'seatly.db')) {
   if (filename !== ':memory:') mkdirSync(dirname(filename), { recursive: true });
   const db = new DatabaseSync(filename);
-  try{
-  db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
-  db.exec('BEGIN IMMEDIATE');
-  db.exec(`
+  try {
+    db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
+    db.exec('BEGIN IMMEDIATE');
+    db.exec(`
     CREATE TABLE IF NOT EXISTS spaces (
       id INTEGER PRIMARY KEY, name TEXT NOT NULL, type TEXT NOT NULL, district TEXT NOT NULL,
       address TEXT NOT NULL, capacity INTEGER NOT NULL, hourly_price INTEGER NOT NULL,
@@ -24,23 +24,43 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
       total_price INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'confirmed', created_at TEXT NOT NULL
     );
   `);
-  if (!(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(c => c.name === 'user_id')) db.exec('ALTER TABLE bookings ADD COLUMN user_id INTEGER;');
-  if (!(db.prepare('PRAGMA table_info(bookings)').all() as {name:string}[]).some(c=>c.name==='expires_at')) db.exec('ALTER TABLE bookings ADD COLUMN expires_at TEXT;');
-  db.prepare("UPDATE bookings SET expires_at=? WHERE status='pending' AND expires_at IS NULL").run(new Date(Date.now()+30*60*1000).toISOString());
-  db.exec(`CREATE INDEX IF NOT EXISTS bookings_slot ON bookings(space_id, booking_date, status);
+    if (
+      !(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(
+        (c) => c.name === 'user_id',
+      )
+    )
+      db.exec('ALTER TABLE bookings ADD COLUMN user_id INTEGER;');
+    if (
+      !(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(
+        (c) => c.name === 'expires_at',
+      )
+    )
+      db.exec('ALTER TABLE bookings ADD COLUMN expires_at TEXT;');
+    db.prepare(
+      "UPDATE bookings SET expires_at=? WHERE status='pending' AND expires_at IS NULL",
+    ).run(new Date(Date.now() + 30 * 60 * 1000).toISOString());
+    db.exec(`CREATE INDEX IF NOT EXISTS bookings_slot ON bookings(space_id, booking_date, status);
     CREATE TRIGGER IF NOT EXISTS prevent_booking_overlap BEFORE INSERT ON bookings
     WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)
     BEGIN SELECT RAISE(ABORT, 'booking_overlap'); END;
     CREATE TRIGGER IF NOT EXISTS prevent_booking_update_overlap BEFORE UPDATE ON bookings
     WHEN NEW.status IN ('pending','confirmed') AND EXISTS (SELECT 1 FROM bookings WHERE id!=NEW.id AND space_id=NEW.space_id AND booking_date=NEW.booking_date AND status IN ('pending','confirmed') AND start_time<NEW.end_time AND end_time>NEW.start_time)
     BEGIN SELECT RAISE(ABORT, 'booking_overlap'); END;`);
-  for(const column of ['request_key','request_payload','create_result']){
-    if(!(db.prepare('PRAGMA table_info(bookings)').all() as {name:string}[]).some(c=>c.name===column))db.exec(`ALTER TABLE bookings ADD COLUMN ${column} TEXT`);
-  }
-  db.exec('CREATE UNIQUE INDEX IF NOT EXISTS bookings_request_key ON bookings(request_key)');
-  db.exec('CREATE INDEX IF NOT EXISTS bookings_user_status_date ON bookings(user_id,status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_status_date ON bookings(status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_expiry ON bookings(status,expires_at);');
-  const count = db.prepare('SELECT COUNT(*) count FROM spaces').get() as { count: number };
-  if (!count.count) db.exec(`
+    for (const column of ['request_key', 'request_payload', 'create_result']) {
+      if (
+        !(db.prepare('PRAGMA table_info(bookings)').all() as { name: string }[]).some(
+          (c) => c.name === column,
+        )
+      )
+        db.exec(`ALTER TABLE bookings ADD COLUMN ${column} TEXT`);
+    }
+    db.exec('CREATE UNIQUE INDEX IF NOT EXISTS bookings_request_key ON bookings(request_key)');
+    db.exec(
+      'CREATE INDEX IF NOT EXISTS bookings_user_status_date ON bookings(user_id,status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_status_date ON bookings(status,booking_date DESC,id DESC);CREATE INDEX IF NOT EXISTS bookings_expiry ON bookings(status,expires_at);',
+    );
+    const count = db.prepare('SELECT COUNT(*) count FROM spaces').get() as { count: number };
+    if (!count.count)
+      db.exec(`
     INSERT INTO spaces VALUES
       (1, 'Olive Room', 'Переговорная', 'Хамовники', 'Большой Саввинский, 12', 8, 1800, 4.9, 48, 'olive', '#7f9274', '["Экран 55″","Маркерная доска","Кофе","Видеосвязь"]', 'Светлая переговорная с видом на набережную и всем необходимым для командной встречи.'),
       (2, 'Forma Hall', 'Лофт', 'Пресня', 'Звенигородское ш., 3', 24, 3200, 4.8, 31, 'forma', '#ba694e', '["Проектор","Звук","Кухня","Климат"]', 'Трансформируемый зал для воркшопов, презентаций и камерных событий.'),
@@ -53,8 +73,12 @@ export function createDatabase(filename = resolve('data', 'seatly.db')) {
       (1,'Олег Миронов','oleg@example.ru','2026-07-06','15:00','17:00',4,3600,'confirmed','2026-07-03T16:40:00'),
       (2,'Studio Demo','team@example.ru','2026-07-07','11:00','14:00',16,9600,'confirmed','2026-07-02T10:00:00');
   `);
-  db.exec(readFileSync(new URL('./booking-constraints.sql',import.meta.url),'utf8'));
-  db.exec('COMMIT');return db;
-  }catch(error){if(db.isTransaction)db.exec('ROLLBACK');db.close();throw error;}
+    db.exec(readFileSync(new URL('./booking-constraints.sql', import.meta.url), 'utf8'));
+    db.exec('COMMIT');
+    return db;
+  } catch (error) {
+    if (db.isTransaction) db.exec('ROLLBACK');
+    db.close();
+    throw error;
+  }
 }
-

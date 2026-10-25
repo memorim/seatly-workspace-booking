@@ -1,3 +1,4 @@
+import { assertLocalDemo } from '../server/auth.js';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import request from 'supertest';
@@ -5,22 +6,65 @@ import { createDatabase } from '../server/db.js';
 import { createApp } from '../server/app.js';
 
 it('isolates guests, enforces owner confirmation, protects SQL writes and revokes sessions', async () => {
-  const db = createDatabase(':memory:'); const app = createApp(db);
-  const guest = request.agent(app), owner = request.agent(app), other = request.agent(app);
+  const db = createDatabase(':memory:');
+  const app = createApp(db);
+  const guest = request.agent(app),
+    owner = request.agent(app),
+    other = request.agent(app);
   assert.equal((await request(app).get('/api/bookings')).status, 401);
-  assert.equal((await guest.post('/api/login').send({ email: 'guest@seatly.example', password: 'wrong' })).status, 401);
-  assert.equal((await guest.post('/api/login').send({ email: 'guest@seatly.example', password: 'GuestDemo2026!' })).status, 200);
-  db.prepare("INSERT INTO users SELECT 3,'Other guest','other@example.test','guest',salt,password_hash FROM users WHERE id=1").run();
+  assert.equal(
+    (await guest.post('/api/login').send({ email: 'guest@seatly.example', password: 'wrong' }))
+      .status,
+    401,
+  );
+  assert.equal(
+    (
+      await guest
+        .post('/api/login')
+        .send({ email: 'guest@seatly.example', password: 'GuestDemo2026!' })
+    ).status,
+    200,
+  );
+  db.prepare(
+    "INSERT INTO users SELECT 3,'Other guest','other@example.test','guest',salt,password_hash FROM users WHERE id=1",
+  ).run();
   await other.post('/api/login').send({ email: 'other@example.test', password: 'GuestDemo2026!' });
-  const body = { spaceId: 1, guestName: 'Demo Guest', guestEmail: 'demo@example.test', bookingDate: '2035-01-10', startTime: '10:00', endTime: '12:00', guests: 2 };
-  const created = await guest.post('/api/bookings').send(body); assert.equal(created.status, 201);
+  const body = {
+    spaceId: 1,
+    guestName: 'Demo Guest',
+    guestEmail: 'demo@example.test',
+    bookingDate: '2035-01-10',
+    startTime: '10:00',
+    endTime: '12:00',
+    guests: 2,
+  };
+  const created = await guest.post('/api/bookings').send(body);
+  assert.equal(created.status, 201);
   const id = created.body.id;
   assert.equal((await other.get('/api/bookings')).body.length, 0);
   assert.equal((await other.delete(`/api/bookings/${id}`)).status, 404);
   assert.equal((await guest.patch(`/api/bookings/${id}/confirm`)).status, 403);
-  assert.equal((await guest.post('/api/bookings').set('Origin', 'https://untrusted.example').send({ ...body, bookingDate: '2035-01-11' })).status, 403);
-  assert.throws(() => db.prepare("INSERT INTO bookings(space_id,guest_name,guest_email,booking_date,start_time,end_time,guests,total_price,status,created_at) VALUES (1,'Other','x@example.test','2035-01-10','11:00','13:00',1,1,'confirmed','now')").run(), /booking_overlap/);
-  await owner.post('/api/login').send({ email: 'owner@seatly.example', password: 'OwnerDemo2026!' });
+  assert.equal(
+    (
+      await guest
+        .post('/api/bookings')
+        .set('Origin', 'https://untrusted.example')
+        .send({ ...body, bookingDate: '2035-01-11' })
+    ).status,
+    403,
+  );
+  assert.throws(
+    () =>
+      db
+        .prepare(
+          "INSERT INTO bookings(space_id,guest_name,guest_email,booking_date,start_time,end_time,guests,total_price,status,created_at) VALUES (1,'Other','x@example.test','2035-01-10','11:00','13:00',1,1,'confirmed','now')",
+        )
+        .run(),
+    /booking_overlap/,
+  );
+  await owner
+    .post('/api/login')
+    .send({ email: 'owner@seatly.example', password: 'OwnerDemo2026!' });
   assert.equal((await owner.patch(`/api/bookings/${id}/confirm`)).status, 200);
   assert.equal((await guest.get('/api/bookings')).body[0].status, 'confirmed');
   assert.equal((await guest.delete(`/api/bookings/${id}`)).status, 204);
@@ -29,4 +73,29 @@ it('isolates guests, enforces owner confirmation, protects SQL writes and revoke
   assert.equal((await guest.post('/api/logout')).status, 204);
   assert.equal((await guest.get('/api/bookings')).status, 401);
   db.close();
+});
+
+it('published demo identities fail closed in production and reject DNS-rebinding hosts', async () => {
+  assert.throws(() => assertLocalDemo({ NODE_ENV: 'production' }), /demo accounts/);
+  assert.throws(() => assertLocalDemo({ HOST: '0.0.0.0' }), /loopback/);
+  assert.doesNotThrow(() => assertLocalDemo({ HOST: '127.0.0.1' }));
+  const db = createDatabase(':memory:');
+  try {
+    const app = createApp(db, () => {});
+    assert.equal(
+      (await request(app).get('/api/session').set('Host', 'untrusted.example')).status,
+      403,
+    );
+    assert.equal(
+      (
+        await request(app)
+          .post('/api/login')
+          .set('Sec-Fetch-Site', 'cross-site')
+          .send({ email: 'owner@seatly.example', password: 'OwnerDemo2026!' })
+      ).status,
+      403,
+    );
+  } finally {
+    db.close();
+  }
 });
