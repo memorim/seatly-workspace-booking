@@ -7,8 +7,9 @@ export type Db = DatabaseSync;
 export function createDatabase(filename = resolve('data', 'seatly.db')) {
   if (filename !== ':memory:') mkdirSync(dirname(filename), { recursive: true });
   const db = new DatabaseSync(filename);
-  db.exec('PRAGMA foreign_keys=ON; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
-  db.exec('BEGIN IMMEDIATE');try{
+  try{
+  db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
+  db.exec('BEGIN IMMEDIATE');
   db.exec(`
     CREATE TABLE IF NOT EXISTS spaces (
       id INTEGER PRIMARY KEY, name TEXT NOT NULL, type TEXT NOT NULL, district TEXT NOT NULL,
