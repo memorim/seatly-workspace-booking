@@ -22,7 +22,8 @@
     "test:contract": "node --import tsx tests/check-contract.mjs",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier . --write",
-    "format:check": "prettier . --check"
+    "format:check": "prettier . --check",
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "cors": "^2.8.6",

@@ -15,6 +15,14 @@ const parseSpace = (row: Record<string, unknown>) => ({
 
 export function createApp(db: Db = createDatabase(), log?: LogSink): Express {
   const app = express();
+  const revision = /^[a-f0-9]{40}$/i.test(process.env.APP_REVISION || '')
+    ? process.env.APP_REVISION
+    : 'local-unversioned';
+  app.use('/api/health', (_req, res, next) => {
+    res.set('X-App-Revision', revision);
+    next();
+  });
+
   app.use(requestLog(log));
   app.use(express.json({ limit: '16kb' }));
   installAuth(app, db);

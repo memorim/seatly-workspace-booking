@@ -93,3 +93,5 @@ CI installs locked dependencies, checks lint/format, types, unit/API, contract, 
 [API request/response example](docs/API_EXAMPLE.md)
 
 [Scheduled backups and recovery](docs/SCHEDULED_BACKUPS.md) · [Hosted adapter](hosting/README.md)
+
+[Revision and deployment checks](docs/DEPLOYMENT_CHECKS.md) — read-only `pnpm smoke` verifies a running Node API and an optional expected source SHA.
