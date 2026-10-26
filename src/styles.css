@@ -31,7 +31,7 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 .site-shell {
-  min-height: 100vh;
+  min-height: calc(100vh / var(--page-zoom, 1));
   overflow: hidden;
 }
 .site-header {
@@ -118,7 +118,7 @@ a {
 }
 .hero h1 {
   margin: 0.75rem 0 1.125rem;
-  font: 400 clamp(2.6875rem, 5vw, 4.5rem)/0.94 'Newsreader';
+  font: 400 clamp(2.6875rem, calc(5vw / var(--page-zoom, 1)), 4.5rem)/0.94 'Newsreader';
   letter-spacing: -0.045em;
 }
 .hero h1 em {
@@ -226,7 +226,7 @@ a {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 23.125rem;
   gap: 1.75rem;
-  padding: 5.75rem max(2.25rem, calc((100vw - 87.5rem) / 2)) 4.375rem;
+  padding: 5.75rem max(2.25rem, calc((calc(100vw / var(--page-zoom, 1)) - 87.5rem) / 2)) 4.375rem;
   background: #ede7dc;
 }
 .catalog-main {
@@ -707,7 +707,7 @@ a {
   width: 1.125rem;
 }
 .how {
-  padding: 5.9375rem max(2.5rem, calc((100vw - 81.25rem) / 2));
+  padding: 5.9375rem max(2.5rem, calc((calc(100vw / var(--page-zoom, 1)) - 81.25rem) / 2));
   background: var(--ink);
   color: #f4efe5;
 }
@@ -782,9 +782,21 @@ a {
   }
 }
 .mobile-booking {
-  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  align-items: end;
+  background: #18181273;
+  backdrop-filter: blur(0.1875rem);
 }
-@media (max-width: 1100px) {
+.mobile-booking .booking-panel {
+  position: relative;
+  max-height: calc(92vh / var(--page-zoom, 1));
+  overflow: auto;
+  border-radius: 1.125rem 1.125rem 0 0;
+}
+@media (max-width: 1100px) and (max-width: 800px), (min-width: 801px) and (max-width: 1650px) {
   .catalog {
     grid-template-columns: minmax(0, 1fr) 20.625rem;
   }
@@ -799,7 +811,7 @@ a {
     display: none;
   }
 }
-@media (max-width: 780px) {
+@media (max-width: 780px), (min-width: 801px) and (max-width: 1170px) {
   .site-header {
     height: 4.0625rem;
     padding: 0 1.0625rem;
@@ -857,21 +869,6 @@ a {
   }
   .card-media {
     height: 13.125rem;
-  }
-  .mobile-booking {
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    display: grid;
-    align-items: end;
-    background: #18181273;
-    backdrop-filter: blur(0.1875rem);
-  }
-  .mobile-booking .booking-panel {
-    position: relative;
-    max-height: 92vh;
-    overflow: auto;
-    border-radius: 1.125rem 1.125rem 0 0;
   }
   .how {
     padding: 4.5rem 1.25rem;
@@ -972,8 +969,8 @@ a {
   font-size: 0.75rem;
 }
 .account-dialog {
-  width: min(40.625rem, 94vw);
-  max-height: 88vh;
+  width: min(40.625rem, calc(94vw / var(--page-zoom, 1)));
+  max-height: calc(88vh / var(--page-zoom, 1));
   overflow: auto;
   border: 0.0625rem solid var(--line);
   border-radius: 1.125rem;
@@ -1052,7 +1049,7 @@ button:disabled {
 .account-dialog [role='alert'] {
   color: #a23022;
 }
-@media (max-width: 700px) {
+@media (max-width: 700px), (min-width: 801px) and (max-width: 1050px) {
   .search-dock {
     grid-template-columns: 1fr 1fr;
   }
@@ -1074,12 +1071,12 @@ button:disabled {
     display: block;
   }
   .mobile-booking .booking-panel {
-    max-height: 94vh;
+    max-height: calc(94vh / var(--page-zoom, 1));
     overflow: auto;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 700px), (min-width: 801px) and (max-width: 1050px) {
   .site-header .header-actions {
     display: flex !important;
     gap: 0.5rem;
@@ -1140,7 +1137,7 @@ button:disabled {
 .account-dialog header h2 {
   min-width: 0;
   flex: 1;
-  font-size: clamp(1.1875rem, 5vw, 1.625rem);
+  font-size: clamp(1.1875rem, calc(5vw / var(--page-zoom, 1)), 1.625rem);
 }
 .account-dialog header button {
   flex-shrink: 0;
@@ -1213,7 +1210,7 @@ textarea:focus-visible {
 }
 
 /* Desktop readability at native browser scale. */
-@media (min-width: 801px) {
+@media (min-width: 801px) and (min-width: 1201.5px) {
   .logo span {
     font-size: 1rem;
   }
@@ -1365,8 +1362,22 @@ textarea:focus-visible {
 }
 
 /* Responsive desktop component scale. */
-@media (min-width: 801px) {
+@media (min-width: 801px) and (min-width: 1201.5px) {
   html {
-    font-size: clamp(18px, 1.35vw, 20px);
+    font-size: clamp(18px, calc(1.35vw / var(--page-zoom, 1)), 20px);
+  }
+}
+
+/* Whole-page desktop zoom; viewport units and breakpoints use the same effective size. */
+/* The compact booking panel is rendered by React below 980 CSS pixels at 150%. */
+@media (max-width: 1469px) {
+  .catalog {
+    grid-template-columns: 1fr;
+  }
+}
+@media screen and (min-width: 801px) {
+  html {
+    --page-zoom: 1.5;
+    zoom: var(--page-zoom);
   }
 }

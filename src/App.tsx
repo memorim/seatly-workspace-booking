@@ -456,7 +456,7 @@ export default function App() {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Space | null>(null);
   const [mobilePanel, setMobilePanel] = useState(false);
-  const [compact, setCompact] = useState(() => window.innerWidth < 980);
+  const [compact, setCompact] = useState(() => window.innerWidth < 1470);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [date, setDate] = useState(tomorrow);
@@ -504,7 +504,8 @@ export default function App() {
   };
   useEffect(() => {
     void load();
-    const media = window.matchMedia('(max-width:979px)');
+    // 980 CSS pixels at the configured 150% desktop page scale.
+    const media = window.matchMedia('(max-width:1469px)');
     const resize = () => setCompact(media.matches);
     media.addEventListener('change', resize);
     return () => media.removeEventListener('change', resize);
