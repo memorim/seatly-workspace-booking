@@ -37,30 +37,15 @@ const amenityIcon = (name: string) =>
 const message = (e: unknown) => (e instanceof Error ? e.message : 'Не удалось выполнить запрос');
 function SpaceVisual({ space, large = false }: { space: Space; large?: boolean }) {
   return (
-    <div
-      className={`space-visual ${space.image} ${large ? 'large' : ''}`}
-      style={{ '--accent': space.accent } as React.CSSProperties}
-    >
-      <div className="window">
-        <i />
-        <i />
-        <i />
-      </div>
-      <div className="floor" />
-      <div className="table">
-        <span />
-        <b />
-        <i />
-      </div>
-      <div className="chair one" />
-      <div className="chair two" />
-      <div className="plant">
-        <i />
-        <i />
-        <i />
-      </div>
-      <div className="lamp" />
-      <span className="sun-patch" />
+    <div className={`space-visual ${large ? 'large' : ''}`}>
+      <img
+        src={`${import.meta.env.BASE_URL}photos/${space.image}.webp`}
+        alt={`Интерьер ${space.name}`}
+        width="1440"
+        height="960"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 }
