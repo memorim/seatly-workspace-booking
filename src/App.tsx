@@ -909,7 +909,7 @@ export default function App() {
               <p>
                 Это учебная роль в вашем отдельном наборе данных.{' '}
                 <a href="/signout-with-chatgpt?return_to=/seatly/index.html" target="_top">
-                  Выйти из ChatGPT
+                  Выйти из аккаунта
                 </a>
               </p>
             )}
@@ -1000,7 +1000,7 @@ export default function App() {
               href="/signin-with-chatgpt?return_to=/seatly/index.html"
               target="_top"
             >
-              Войти через ChatGPT
+              Войти в аккаунт
             </a>
           </>
         ) : mode === 'browser' || mode === 'hosted' ? (

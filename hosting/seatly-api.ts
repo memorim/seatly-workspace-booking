@@ -62,7 +62,7 @@ export async function seatlyApi(req: Request, db: SqlDB, key: string | null) {
         : [];
       return json({ date, bookings: slots });
     }
-    if (!key) throw new HttpError(401, 'Войдите через ChatGPT');
+    if (!key) throw new HttpError(401, 'Войдите в аккаунт');
     if (path === '/login' && method === 'POST') {
       const parsed = z
         .object({
