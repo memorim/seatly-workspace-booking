@@ -18,7 +18,7 @@ html {
 }
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 20rem;
 }
 button,
 input,
@@ -35,46 +35,46 @@ a {
   overflow: hidden;
 }
 .site-header {
-  height: 76px;
+  height: 4.75rem;
   display: flex;
   align-items: center;
-  gap: 52px;
-  max-width: 1480px;
+  gap: 3.25rem;
+  max-width: 92.5rem;
   margin: auto;
-  padding: 0 42px;
-  border-bottom: 1px solid var(--line);
+  padding: 0 2.625rem;
+  border-bottom: 0.0625rem solid var(--line);
 }
 .logo {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 0.5625rem;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   text-decoration: none;
 }
 .logo span {
   display: grid;
   place-items: center;
-  width: 29px;
-  height: 29px;
+  width: 1.8125rem;
+  height: 1.8125rem;
   border-radius: 50%;
   background: var(--ink);
   color: var(--cream);
-  font: 500 15px 'Newsreader';
+  font: 500 0.9375rem 'Newsreader';
 }
 .site-header nav {
   display: flex;
-  gap: 30px;
+  gap: 1.875rem;
 }
 .site-header nav a {
   color: #5f5f57;
-  font-size: 11px;
+  font-size: 0.6875rem;
   text-decoration: none;
 }
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 0.5625rem;
   margin-left: auto;
 }
 .header-actions button {
@@ -85,16 +85,16 @@ a {
 .city {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
 }
 .city svg {
-  width: 14px;
+  width: 0.875rem;
 }
 .login {
-  padding: 9px 16px !important;
-  border: 1px solid #d1cbc0 !important;
-  border-radius: 24px !important;
+  padding: 0.5625rem 1rem !important;
+  border: 0.0625rem solid #d1cbc0 !important;
+  border-radius: 1.5rem !important;
 }
 .menu {
   display: none;
@@ -103,22 +103,22 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  max-width: 1400px;
-  min-height: 350px;
+  max-width: 87.5rem;
+  min-height: 21.875rem;
   margin: auto;
-  padding: 68px 54px 45px;
+  padding: 4.25rem 3.375rem 2.8125rem;
 }
 .kicker {
   margin: 0;
   color: #8a8a80;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 .hero h1 {
-  margin: 12px 0 18px;
-  font: 400 clamp(43px, 5vw, 72px)/0.94 'Newsreader';
+  margin: 0.75rem 0 1.125rem;
+  font: 400 clamp(2.6875rem, 5vw, 4.5rem)/0.94 'Newsreader';
   letter-spacing: -0.045em;
 }
 .hero h1 em {
@@ -127,26 +127,26 @@ a {
 }
 .hero-copy > p:last-child {
   color: #77766d;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.55;
 }
 .hero-mark {
   display: grid;
-  grid-template-columns: auto 90px auto;
+  grid-template-columns: auto 5.625rem auto;
   align-items: center;
-  gap: 15px;
-  padding-bottom: 12px;
+  gap: 0.9375rem;
+  padding-bottom: 0.75rem;
 }
 .hero-mark span {
-  font: 400 38px 'Newsreader';
+  font: 400 2.375rem 'Newsreader';
 }
 .hero-mark i {
-  height: 1px;
+  height: 0.0625rem;
   background: #99978c;
 }
 .hero-mark small {
   color: #838278;
-  font-size: 8px;
+  font-size: 0.5rem;
   line-height: 1.5;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -155,78 +155,78 @@ a {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(260px, 1.4fr) 230px 220px 90px;
-  max-width: 1290px;
+  grid-template-columns: minmax(16.25rem, 1.4fr) 14.375rem 13.75rem 5.625rem;
+  max-width: 80.625rem;
   margin: 0 auto -35px;
-  border: 1px solid #d8d2c7;
-  border-radius: 12px;
+  border: 0.0625rem solid #d8d2c7;
+  border-radius: 0.75rem;
   background: var(--paper);
-  box-shadow: 0 16px 40px #4b42341a;
+  box-shadow: 0 1rem 2.5rem #4b42341a;
   overflow: hidden;
 }
 .search-dock > div,
 .search-dock > button {
-  min-height: 72px;
+  min-height: 4.5rem;
   border: 0;
-  border-right: 1px solid #e1dcd2;
+  border-right: 0.0625rem solid #e1dcd2;
   background: none;
 }
 .main-search {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 22px;
+  gap: 0.75rem;
+  padding: 0 1.375rem;
 }
 .main-search svg {
-  width: 19px;
+  width: 1.1875rem;
 }
 .main-search input {
   width: 100%;
   border: 0;
   outline: 0;
   background: none;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .search-dock > button {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 0 18px;
+  gap: 0.6875rem;
+  padding: 0 1.125rem;
   text-align: left;
   cursor: pointer;
 }
 .search-dock > button svg {
-  width: 17px;
+  width: 1.0625rem;
 }
 .search-dock > button > span {
   display: grid;
-  gap: 3px;
-  font-size: 9px;
+  gap: 0.1875rem;
+  font-size: 0.5625rem;
   font-weight: 700;
 }
 .search-dock > button small {
   color: #8b8a81;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 400;
 }
 .search-dock > button > svg:last-child {
-  width: 13px;
+  width: 0.8125rem;
   margin-left: auto;
 }
 .search-dock .search-button {
   justify-content: center;
-  border: 7px solid var(--paper);
+  border: 0.4375rem solid var(--paper);
   background: var(--ink);
   color: white;
   padding: 0;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 }
 .catalog {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 370px;
-  gap: 28px;
-  padding: 92px max(36px, calc((100vw - 1400px) / 2)) 70px;
+  grid-template-columns: minmax(0, 1fr) 23.125rem;
+  gap: 1.75rem;
+  padding: 5.75rem max(2.25rem, calc((100vw - 87.5rem) / 2)) 4.375rem;
   background: #ede7dc;
 }
 .catalog-main {
@@ -239,39 +239,39 @@ a {
 }
 .catalog-heading h2,
 .how h2 {
-  margin: 7px 0 0;
-  font: 400 33px 'Newsreader';
+  margin: 0.4375rem 0 0;
+  font: 400 2.0625rem 'Newsreader';
   letter-spacing: -0.025em;
 }
 .filter-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 13px;
-  border: 1px solid #d1cabf;
-  border-radius: 8px;
+  gap: 0.5rem;
+  padding: 0.5625rem 0.8125rem;
+  border: 0.0625rem solid #d1cabf;
+  border-radius: 0.5rem;
   background: transparent;
-  font-size: 9px;
+  font-size: 0.5625rem;
   cursor: pointer;
 }
 .filter-button svg {
-  width: 14px;
+  width: 0.875rem;
 }
 .type-filter {
   display: flex;
-  gap: 7px;
-  margin: 23px 0 20px;
+  gap: 0.4375rem;
+  margin: 1.4375rem 0 1.25rem;
   overflow: auto;
   scrollbar-width: none;
 }
 .type-filter button {
   flex: 0 0 auto;
-  padding: 8px 13px;
-  border: 1px solid #d7d0c5;
-  border-radius: 22px;
+  padding: 0.5rem 0.8125rem;
+  border: 0.0625rem solid #d7d0c5;
+  border-radius: 1.375rem;
   background: transparent;
   color: #68675f;
-  font-size: 9px;
+  font-size: 0.5625rem;
   cursor: pointer;
 }
 .type-filter button.active {
@@ -281,12 +281,12 @@ a {
 }
 .space-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(16.25rem, 1fr));
+  gap: 0.875rem;
 }
 .space-card {
-  border: 1px solid transparent;
-  border-radius: 13px;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.8125rem;
   background: var(--paper);
   overflow: hidden;
   cursor: pointer;
@@ -296,120 +296,120 @@ a {
 .space-card.selected {
   transform: translateY(-2px);
   border-color: #a6a094;
-  box-shadow: 0 13px 35px #574b3b14;
+  box-shadow: 0 0.8125rem 2.1875rem #574b3b14;
 }
 .card-media {
   position: relative;
-  height: 175px;
+  height: 10.9375rem;
   overflow: hidden;
 }
 .card-media > button {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 0.75rem;
+  right: 0.75rem;
   display: grid;
   place-items: center;
-  width: 31px;
-  height: 31px;
+  width: 1.9375rem;
+  height: 1.9375rem;
   border: 0;
   border-radius: 50%;
   background: #fffc;
   cursor: pointer;
 }
 .card-media > button svg {
-  width: 15px;
+  width: 0.9375rem;
 }
 .card-media > button.liked {
   color: #a94f42;
 }
 .card-media > span {
   position: absolute;
-  bottom: 11px;
-  left: 11px;
-  padding: 5px 8px;
-  border-radius: 5px;
+  bottom: 0.6875rem;
+  left: 0.6875rem;
+  padding: 0.3125rem 0.5rem;
+  border-radius: 0.3125rem;
   background: #fdfbf6dc;
-  backdrop-filter: blur(5px);
-  font-size: 7px;
+  backdrop-filter: blur(0.3125rem);
+  font-size: 0.4375rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 .card-body {
-  padding: 14px 15px 13px;
+  padding: 0.875rem 0.9375rem 0.8125rem;
 }
 .card-heading {
   display: flex;
   justify-content: space-between;
-  gap: 9px;
+  gap: 0.5625rem;
 }
 .card-heading h3 {
-  margin: 0 0 4px;
-  font: 500 18px 'Newsreader';
+  margin: 0 0 0.25rem;
+  font: 500 1.125rem 'Newsreader';
 }
 .card-heading p {
   display: flex;
   align-items: center;
   margin: 0;
   color: #85847b;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .card-heading p svg {
-  width: 11px;
-  margin-right: 3px;
+  width: 0.6875rem;
+  margin-right: 0.1875rem;
 }
 .card-heading > span {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: 9px;
+  gap: 0.1875rem;
+  font-size: 0.5625rem;
   font-weight: 700;
 }
 .card-heading > span svg {
-  width: 11px;
+  width: 0.6875rem;
   color: #a57b35;
 }
 .amenities {
   display: flex;
-  gap: 10px;
-  min-height: 36px;
-  padding: 12px 0 9px;
+  gap: 0.625rem;
+  min-height: 2.25rem;
+  padding: 0.75rem 0 0.5625rem;
   overflow: hidden;
 }
 .amenities span {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  gap: 4px;
+  gap: 0.25rem;
   color: #77766e;
-  font-size: 7px;
+  font-size: 0.4375rem;
 }
 .amenities svg {
-  width: 11px;
+  width: 0.6875rem;
 }
 .card-body footer {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  padding-top: 10px;
-  border-top: 1px solid #e6e1d8;
+  padding-top: 0.625rem;
+  border-top: 0.0625rem solid #e6e1d8;
 }
 .card-body footer > span {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3125rem;
   color: #79786f;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .card-body footer svg {
-  width: 12px;
+  width: 0.75rem;
 }
 .card-body footer strong {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .card-body footer small {
   color: #8a8980;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-weight: 400;
 }
 .space-visual {
@@ -426,12 +426,12 @@ a {
 }
 .booking-panel {
   position: sticky;
-  top: 18px;
+  top: 1.125rem;
   align-self: start;
-  padding: 25px;
-  border-radius: 14px;
+  padding: 1.5625rem;
+  border-radius: 0.875rem;
   background: var(--paper);
-  box-shadow: 0 12px 35px #4c423616;
+  box-shadow: 0 0.75rem 2.1875rem #4c423616;
 }
 .booking-heading {
   display: flex;
@@ -439,36 +439,36 @@ a {
   align-items: end;
 }
 .booking-heading h2 {
-  margin: 5px 0 0;
-  font: 500 24px 'Newsreader';
+  margin: 0.3125rem 0 0;
+  font: 500 1.5rem 'Newsreader';
 }
 .booking-heading > span {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 9px;
+  gap: 0.25rem;
+  font-size: 0.5625rem;
   font-weight: 700;
 }
 .booking-heading svg {
-  width: 12px;
+  width: 0.75rem;
   color: #a57b35;
 }
 .booking-address {
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin: 8px 0 22px;
+  gap: 0.3125rem;
+  margin: 0.5rem 0 1.375rem;
   color: #838278;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .booking-address svg {
-  width: 12px;
+  width: 0.75rem;
 }
 .booking-panel label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -476,38 +476,38 @@ a {
 .booking-panel label span {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   color: #77766e;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0;
 }
 .booking-panel label svg {
-  width: 12px;
+  width: 0.75rem;
 }
 .date-strip {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 4px;
-  margin-top: 10px;
+  gap: 0.25rem;
+  margin-top: 0.625rem;
 }
 .date-strip button {
   display: grid;
   place-items: center;
-  gap: 4px;
-  padding: 8px 2px;
-  border: 1px solid #dfd9cf;
-  border-radius: 7px;
+  gap: 0.25rem;
+  padding: 0.5rem 0.125rem;
+  border: 0.0625rem solid #dfd9cf;
+  border-radius: 0.4375rem;
   background: none;
   cursor: pointer;
 }
 .date-strip span {
   color: #949289;
-  font-size: 7px;
+  font-size: 0.4375rem;
 }
 .date-strip strong {
-  font-size: 10px;
+  font-size: 0.625rem;
 }
 .date-strip button.active {
   border-color: var(--ink);
@@ -518,100 +518,100 @@ a {
   color: #c9c8c1;
 }
 .time-section {
-  margin-top: 19px;
+  margin-top: 1.1875rem;
 }
 .time-fields {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 7px;
+  gap: 0.4375rem;
   align-items: center;
-  margin-top: 9px;
+  margin-top: 0.5625rem;
 }
 .time-fields > div {
   display: flex;
   align-items: center;
-  gap: 3px;
-  border: 1px solid #ded8ce;
-  border-radius: 7px;
-  padding: 0 7px;
+  gap: 0.1875rem;
+  border: 0.0625rem solid #ded8ce;
+  border-radius: 0.4375rem;
+  padding: 0 0.4375rem;
 }
 .time-fields svg {
-  width: 13px;
+  width: 0.8125rem;
   color: #77766d;
 }
 .time-fields select {
   width: 100%;
-  height: 38px;
+  height: 2.375rem;
   border: 0;
   outline: 0;
   background: transparent;
-  font-size: 10px;
+  font-size: 0.625rem;
 }
 .busy-note {
-  margin: 7px 0 0;
+  margin: 0.4375rem 0 0;
   color: #a15b48;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .guest-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 19px 0;
-  padding: 15px 0;
-  border-top: 1px solid #e3ded4;
-  border-bottom: 1px solid #e3ded4;
+  margin: 1.1875rem 0;
+  padding: 0.9375rem 0;
+  border-top: 0.0625rem solid #e3ded4;
+  border-bottom: 0.0625rem solid #e3ded4;
 }
 .guest-row label {
   display: block;
 }
 .guest-row span {
   color: #8b8a81;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .counter {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 .counter button {
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 1px solid #d9d3c8;
+  width: 1.625rem;
+  height: 1.625rem;
+  border: 0.0625rem solid #d9d3c8;
   border-radius: 50%;
   background: none;
   cursor: pointer;
 }
 .counter svg {
-  width: 11px;
+  width: 0.6875rem;
 }
 .counter strong {
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .price-row {
   display: flex;
   justify-content: space-between;
-  margin: 18px 0 13px;
+  margin: 1.125rem 0 0.8125rem;
   color: #727169;
-  font-size: 9px;
+  font-size: 0.5625rem;
 }
 .price-row strong {
   color: var(--ink);
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .dark-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
   width: 100%;
   border: 0;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: var(--ink);
   color: white;
-  padding: 13px;
-  font-size: 9px;
+  padding: 0.8125rem;
+  font-size: 0.5625rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -622,81 +622,81 @@ a {
   opacity: 0.6;
 }
 .dark-button svg {
-  width: 14px;
+  width: 0.875rem;
 }
 .safe-note {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  margin: 10px 0 0;
+  gap: 0.3125rem;
+  margin: 0.625rem 0 0;
   color: #929188;
-  font-size: 7px;
+  font-size: 0.4375rem;
 }
 .safe-note svg {
-  width: 10px;
+  width: 0.625rem;
 }
 .guest-form {
   display: grid;
-  gap: 10px;
+  gap: 0.625rem;
 }
 .guest-form label {
   display: grid;
   justify-content: stretch;
-  gap: 5px;
+  gap: 0.3125rem;
 }
 .guest-form input {
   width: 100%;
-  border: 1px solid #ddd7cc;
-  border-radius: 7px;
+  border: 0.0625rem solid #ddd7cc;
+  border-radius: 0.4375rem;
   outline: 0;
-  padding: 10px;
+  padding: 0.625rem;
   background: #fff;
-  font-size: 10px;
+  font-size: 0.625rem;
   text-transform: none;
 }
 .booking-error {
   margin: 0;
   color: #a54135;
-  font-size: 8px;
+  font-size: 0.5rem;
 }
 .booking-success {
   display: grid;
   place-items: center;
-  min-height: 480px;
+  min-height: 30rem;
   text-align: center;
 }
 .booking-success > span {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 2.875rem;
+  height: 2.875rem;
   border-radius: 50%;
   background: #dce7d4;
   color: #5f7350;
 }
 .booking-success > span svg {
-  width: 20px;
+  width: 1.25rem;
 }
 .booking-success .kicker {
-  margin-top: 18px;
+  margin-top: 1.125rem;
 }
 .booking-success h2 {
-  margin: 7px 0 12px;
-  font: 400 30px/1 'Newsreader';
+  margin: 0.4375rem 0 0.75rem;
+  font: 400 1.875rem/1 'Newsreader';
 }
 .booking-success > p:not(.kicker) {
   color: #77766d;
-  font-size: 9px;
+  font-size: 0.5625rem;
   line-height: 1.7;
 }
 .booking-success .dark-button {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 .close-panel {
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: 0.9375rem;
+  top: 0.9375rem;
   display: grid;
   place-items: center;
   border: 0;
@@ -704,10 +704,10 @@ a {
   cursor: pointer;
 }
 .close-panel svg {
-  width: 18px;
+  width: 1.125rem;
 }
 .how {
-  padding: 95px max(40px, calc((100vw - 1300px) / 2));
+  padding: 5.9375rem max(2.5rem, calc((100vw - 81.25rem) / 2));
   background: var(--ink);
   color: #f4efe5;
 }
@@ -715,63 +715,63 @@ a {
   color: #9a9a8d;
 }
 .how h2 {
-  margin-top: 13px;
-  font-size: 48px;
+  margin-top: 0.8125rem;
+  font-size: 3rem;
 }
 .how > div {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
-  margin-top: 58px;
+  gap: 3.75rem;
+  margin-top: 3.625rem;
 }
 .how article {
-  border-top: 1px solid #54544b;
-  padding-top: 17px;
+  border-top: 0.0625rem solid #54544b;
+  padding-top: 1.0625rem;
 }
 .how article span {
   color: #9ca88b;
-  font: italic 18px 'Newsreader';
+  font: italic 1.125rem 'Newsreader';
 }
 .how article h3 {
-  margin: 28px 0 8px;
-  font: 400 22px 'Newsreader';
+  margin: 1.75rem 0 0.5rem;
+  font: 400 1.375rem 'Newsreader';
 }
 .how article p {
-  max-width: 260px;
+  max-width: 16.25rem;
   color: #a5a59c;
-  font-size: 10px;
+  font-size: 0.625rem;
   line-height: 1.6;
 }
 .empty,
 .catalog-loader {
   display: grid;
   place-items: center;
-  min-height: 390px;
+  min-height: 24.375rem;
   text-align: center;
 }
 .empty svg {
-  width: 28px;
+  width: 1.75rem;
 }
 .empty h3 {
-  margin: 12px 0 4px;
-  font: 500 20px 'Newsreader';
+  margin: 0.75rem 0 0.25rem;
+  font: 500 1.25rem 'Newsreader';
 }
 .empty p,
 .catalog-loader p {
   color: #85847b;
-  font-size: 9px;
+  font-size: 0.5625rem;
 }
 .empty button {
   border: 0;
   background: none;
   text-decoration: underline;
-  font-size: 9px;
+  font-size: 0.5625rem;
   cursor: pointer;
 }
 .catalog-loader span {
-  width: 25px;
-  height: 25px;
-  border: 2px solid #ccc4b7;
+  width: 1.5625rem;
+  height: 1.5625rem;
+  border: 0.125rem solid #ccc4b7;
   border-top-color: var(--ink);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -786,11 +786,11 @@ a {
 }
 @media (max-width: 1100px) {
   .catalog {
-    grid-template-columns: minmax(0, 1fr) 330px;
+    grid-template-columns: minmax(0, 1fr) 20.625rem;
   }
   .search-dock {
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 1.875rem;
+    margin-right: 1.875rem;
   }
   .space-grid {
     grid-template-columns: 1fr;
@@ -801,8 +801,8 @@ a {
 }
 @media (max-width: 780px) {
   .site-header {
-    height: 65px;
-    padding: 0 17px;
+    height: 4.0625rem;
+    padding: 0 1.0625rem;
   }
   .city,
   .login {
@@ -812,11 +812,11 @@ a {
     display: grid !important;
   }
   .hero {
-    min-height: 330px;
-    padding: 55px 19px 38px;
+    min-height: 20.625rem;
+    padding: 3.4375rem 1.1875rem 2.375rem;
   }
   .hero h1 {
-    font-size: 43px;
+    font-size: 2.6875rem;
   }
   .hero-copy > p:last-child br {
     display: none;
@@ -825,12 +825,12 @@ a {
     display: none;
   }
   .search-dock {
-    grid-template-columns: 1fr 60px;
-    margin: 0 14px -28px;
+    grid-template-columns: 1fr 3.75rem;
+    margin: 0 0.875rem -28px;
   }
   .search-dock > div,
   .search-dock > button {
-    min-height: 58px;
+    min-height: 3.625rem;
   }
   .search-dock > button:not(.search-button) {
     display: none;
@@ -840,23 +840,23 @@ a {
   }
   .search-dock .search-button:after {
     content: '→';
-    font-size: 16px;
+    font-size: 1rem;
   }
   .catalog {
     display: block;
-    padding: 70px 14px 55px;
+    padding: 4.375rem 0.875rem 3.4375rem;
   }
   .catalog > .booking-panel {
     display: none;
   }
   .catalog-heading h2 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
   .space-grid {
     grid-template-columns: 1fr;
   }
   .card-media {
-    height: 210px;
+    height: 13.125rem;
   }
   .mobile-booking {
     position: fixed;
@@ -865,27 +865,27 @@ a {
     display: grid;
     align-items: end;
     background: #18181273;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(0.1875rem);
   }
   .mobile-booking .booking-panel {
     position: relative;
     max-height: 92vh;
     overflow: auto;
-    border-radius: 18px 18px 0 0;
+    border-radius: 1.125rem 1.125rem 0 0;
   }
   .how {
-    padding: 72px 20px;
+    padding: 4.5rem 1.25rem;
   }
   .how h2 {
-    font-size: 38px;
+    font-size: 2.375rem;
   }
   .how > div {
     grid-template-columns: 1fr;
-    gap: 30px;
-    margin-top: 40px;
+    gap: 1.875rem;
+    margin-top: 2.5rem;
   }
   .how article h3 {
-    margin-top: 15px;
+    margin-top: 0.9375rem;
   }
   .type-filter {
     margin-right: -14px;
@@ -900,30 +900,30 @@ a {
     min-height: auto;
   }
   .card-body {
-    padding: 16px;
+    padding: 1rem;
   }
   .booking-success {
-    min-height: 420px;
+    min-height: 26.25rem;
   }
 }
 @media (max-width: 420px) {
   .hero h1 {
-    font-size: 38px;
+    font-size: 2.375rem;
   }
   .card-media {
-    height: 185px;
+    height: 11.5625rem;
   }
   .catalog-heading h2 {
-    font-size: 25px;
+    font-size: 1.5625rem;
   }
   .date-strip {
-    gap: 2px;
+    gap: 0.125rem;
   }
   .date-strip button {
-    padding: 7px 1px;
+    padding: 0.4375rem 0.0625rem;
   }
   .booking-panel {
-    padding: 22px 18px;
+    padding: 1.375rem 1.125rem;
   }
   .space-card.selected {
     transform: none;
@@ -947,37 +947,37 @@ a {
 .search-field {
   display: grid;
   align-content: center;
-  gap: 5px;
-  padding: 10px 18px;
-  font-size: 11px;
+  gap: 0.3125rem;
+  padding: 0.625rem 1.125rem;
+  font-size: 0.6875rem;
 }
 .search-field input,
 .booking-date input,
 .time-fields input {
   width: 100%;
   min-width: 0;
-  padding: 9px;
-  border: 1px solid var(--line);
-  border-radius: 7px;
+  padding: 0.5625rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 0.4375rem;
   background: white;
 }
 .booking-date {
   display: grid;
-  gap: 7px;
-  margin: 16px 0;
-  font-size: 12px;
+  gap: 0.4375rem;
+  margin: 1rem 0;
+  font-size: 0.75rem;
 }
 .time-fields label {
   min-width: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .account-dialog {
-  width: min(650px, 94vw);
+  width: min(40.625rem, 94vw);
   max-height: 88vh;
   overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 24px;
+  border: 0.0625rem solid var(--line);
+  border-radius: 1.125rem;
+  padding: 1.5rem;
   background: var(--paper);
   color: var(--ink);
 }
@@ -988,59 +988,59 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: start;
-  gap: 16px;
+  gap: 1rem;
 }
 .account-dialog h2 {
-  margin: 0 0 18px;
-  font: 32px Newsreader;
+  margin: 0 0 1.125rem;
+  font: 2rem Newsreader;
 }
 .account-dialog button {
   cursor: pointer;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
+  padding: 0.625rem 0.875rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 0.5625rem;
   background: white;
 }
 .account-dialog .dark-button {
   background: var(--ink);
   color: white;
-  margin-top: 12px;
+  margin-top: 0.75rem;
 }
 .account-dialog form,
 .account-dialog label {
   display: grid;
-  gap: 10px;
+  gap: 0.625rem;
 }
 .account-dialog input,
 .account-dialog select {
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  padding: 0.75rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 0.5rem;
 }
 .booking-record {
-  margin-top: 18px;
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
+  margin-top: 1.125rem;
+  border-top: 0.0625rem solid var(--line);
+  padding-top: 0.75rem;
 }
 .booking-record div {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
 }
 .booking-record p {
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .time-fields {
   grid-template-columns: 1fr 1fr;
 }
 .time-fields label {
   display: grid;
-  gap: 6px;
+  gap: 0.375rem;
 }
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid #6b7e48;
-  outline-offset: 3px;
+  outline: 0.1875rem solid #6b7e48;
+  outline-offset: 0.1875rem;
 }
 button:disabled {
   opacity: 0.55;
@@ -1058,14 +1058,14 @@ button:disabled {
   }
   .main-search {
     grid-column: 1/-1;
-    min-height: 65px;
+    min-height: 4.0625rem;
   }
   .search-button {
     grid-column: 1/-1;
-    min-height: 45px !important;
+    min-height: 2.8125rem !important;
   }
   .search-field {
-    padding: 12px;
+    padding: 0.75rem;
   }
   .site-header nav {
     display: none;
@@ -1082,52 +1082,52 @@ button:disabled {
 @media (max-width: 700px) {
   .site-header .header-actions {
     display: flex !important;
-    gap: 8px;
+    gap: 0.5rem;
   }
   .site-header .city {
     display: none;
   }
   .site-header {
-    gap: 10px;
-    padding: 0 18px;
+    gap: 0.625rem;
+    padding: 0 1.125rem;
   }
   .header-actions .login {
     display: block !important;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
 
 .hosted-note {
   background: #e5eadc;
   color: #31402d;
-  padding: 12px 24px;
-  font-size: 13px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
 }
 .reschedule-form {
   display: grid;
-  gap: 12px;
-  padding: 16px 0;
+  gap: 0.75rem;
+  padding: 1rem 0;
 }
 .reschedule-form label {
   display: grid;
-  gap: 6px;
+  gap: 0.375rem;
 }
 .reschedule-form input {
-  padding: 10px;
-  border: 1px solid #a7ada2;
-  border-radius: 6px;
+  padding: 0.625rem;
+  border: 0.0625rem solid #a7ada2;
+  border-radius: 0.375rem;
   max-width: 100%;
   min-width: 0;
 }
 .reschedule-form > div {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.625rem;
 }
 :focus-visible {
-  outline: 3px solid #426458;
-  outline-offset: 3px;
+  outline: 0.1875rem solid #426458;
+  outline-offset: 0.1875rem;
 }
 
 .account-dialog {
@@ -1135,12 +1135,12 @@ button:disabled {
 }
 .account-dialog header {
   align-items: flex-start;
-  gap: 12px;
+  gap: 0.75rem;
 }
 .account-dialog header h2 {
   min-width: 0;
   flex: 1;
-  font-size: clamp(19px, 5vw, 26px);
+  font-size: clamp(1.1875rem, 5vw, 1.625rem);
 }
 .account-dialog header button {
   flex-shrink: 0;
@@ -1163,16 +1163,16 @@ button:disabled {
 .booking-filters {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 18px 0;
+  gap: 0.75rem;
+  margin: 1.125rem 0;
 }
 .pagination {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   flex-wrap: wrap;
-  margin: 14px 0;
-  font-size: 12px;
+  margin: 0.875rem 0;
+  font-size: 0.75rem;
 }
 @media (max-width: 500px) {
   .booking-filters {
@@ -1181,33 +1181,192 @@ button:disabled {
 }
 
 .guided-demo > p {
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.7;
 }
 .guided-demo > button {
-  margin-top: 14px;
+  margin-top: 0.875rem;
 }
 .demo-launch {
-  padding: 15px 36px 0;
+  padding: 0.9375rem 2.25rem 0;
   display: flex;
   justify-content: flex-end;
 }
 @media (max-width: 500px) {
   .demo-launch {
-    padding: 12px 18px 0;
+    padding: 0.75rem 1.125rem 0;
   }
 }
 
 button,
 input,
 select {
-  min-height: 24px;
+  min-height: 1.5rem;
 }
 button {
-  min-width: 24px;
+  min-width: 1.5rem;
 }
 input:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #b54b27;
-  outline-offset: 3px;
+  outline: 0.1875rem solid #b54b27;
+  outline-offset: 0.1875rem;
+}
+
+/* Desktop readability at native browser scale. */
+@media (min-width: 801px) {
+  .logo span {
+    font-size: 1rem;
+  }
+  .site-header nav a {
+    font-size: 0.875rem;
+  }
+  .city {
+    font-size: 0.875rem;
+  }
+  .kicker {
+    font-size: 0.875rem;
+  }
+  .hero-copy > p:last-child {
+    font-size: 1rem;
+  }
+  .hero-mark small {
+    font-size: 0.75rem;
+  }
+  .main-search input {
+    font-size: 1rem;
+  }
+  .search-dock > button > span {
+    font-size: 0.875rem;
+  }
+  .search-dock > button small {
+    font-size: 0.75rem;
+  }
+  .search-dock .search-button {
+    font-size: 0.875rem;
+  }
+  .filter-button {
+    font-size: 0.875rem;
+  }
+  .type-filter button {
+    font-size: 0.875rem;
+  }
+  .card-media > span {
+    font-size: 0.875rem;
+  }
+  .card-heading h3 {
+    font-size: 1.375rem;
+  }
+  .card-heading p {
+    font-size: 0.875rem;
+  }
+  .card-heading > span {
+    font-size: 0.875rem;
+  }
+  .amenities span {
+    font-size: 0.875rem;
+  }
+  .card-body footer > span {
+    font-size: 0.75rem;
+  }
+  .card-body footer strong {
+    font-size: 1rem;
+  }
+  .card-body footer small {
+    font-size: 0.75rem;
+  }
+  .booking-heading > span {
+    font-size: 0.875rem;
+  }
+  .booking-address {
+    font-size: 0.875rem;
+  }
+  .booking-panel label {
+    font-size: 0.875rem;
+  }
+  .booking-panel label span {
+    font-size: 0.875rem;
+  }
+  .date-strip span {
+    font-size: 0.875rem;
+  }
+  .date-strip strong {
+    font-size: 0.875rem;
+  }
+  .time-fields select {
+    font-size: 0.75rem;
+  }
+  .busy-note {
+    font-size: 0.875rem;
+  }
+  .guest-row span {
+    font-size: 0.875rem;
+  }
+  .counter strong {
+    font-size: 0.875rem;
+  }
+  .price-row {
+    font-size: 0.875rem;
+  }
+  .price-row strong {
+    font-size: 1rem;
+  }
+  .dark-button {
+    font-size: 0.875rem;
+  }
+  .safe-note {
+    font-size: 0.875rem;
+  }
+  .guest-form input {
+    font-size: 0.875rem;
+  }
+  .booking-error {
+    font-size: 0.875rem;
+  }
+  .booking-success > p:not(.kicker) {
+    font-size: 0.875rem;
+  }
+  .how article h3 {
+    font-size: 1.625rem;
+  }
+  .how article p {
+    font-size: 0.875rem;
+  }
+  .empty h3 {
+    font-size: 1.5rem;
+  }
+  .empty p,
+  .catalog-loader p {
+    font-size: 0.875rem;
+  }
+  .empty button {
+    font-size: 0.875rem;
+  }
+  .search-field {
+    font-size: 0.875rem;
+  }
+  .booking-date {
+    font-size: 1rem;
+  }
+  .time-fields label {
+    font-size: 1rem;
+  }
+  .booking-record p {
+    font-size: 1rem;
+  }
+  .hosted-note {
+    font-size: 1rem;
+  }
+  .pagination {
+    font-size: 1rem;
+  }
+  .guided-demo > p {
+    font-size: 1rem;
+  }
+}
+
+/* Responsive desktop component scale. */
+@media (min-width: 801px) {
+  html {
+    font-size: clamp(18px, 1.35vw, 20px);
+  }
 }
