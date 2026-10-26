@@ -589,11 +589,6 @@ export default function App() {
   };
   return (
     <div className="site-shell">
-      {mode === 'hosted' && (
-        <div className="hosted-note">
-          Интерактивная демонстрация · после входа доступны роли гостя и владельца.
-        </div>
-      )}
       <header className="site-header">
         <a className="logo" href="#">
           <span>S</span>seatly

@@ -1,14 +1,13 @@
-# Seatly — бронирование рабочих пространств
+# Seatly - бронирование рабочих пространств
 
 Поиск помещений и бронирование временных интервалов: заявка гостя, подтверждение владельцем, перенос и отмена.
 
-[Демо в браузере](https://memorim.github.io/seatly-workspace-booking/) · [Серверное демо](https://memorim-flowboard-live.amusedcorgi34.chatgpt.site/seatly/index.html)
+[Открыть проект](https://memorim.github.io/seatly-workspace-booking/) · [Серверная версия](https://memorim-flowboard-live.amusedcorgi34.chatgpt.site/seatly/)
+
 
 ![Компьютерная версия](docs/desktop.png)
 
 <img src="docs/mobile.png" width="320" alt="Мобильная версия">
-
-[Короткая демонстрация](docs/demo.gif)
 
 ## Возможности
 
