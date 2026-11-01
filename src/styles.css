@@ -284,49 +284,6 @@ a {
   grid-template-columns: repeat(2, minmax(16.25rem, 1fr));
   gap: 0.875rem;
 }
-.catalog-pager {
-  display: none;
-}
-@media (max-width: 800px) {
-  .catalog-pager {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1rem 0;
-    font-size: 0.875rem;
-  }
-  .catalog-pager button {
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--line);
-    background: var(--paper);
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  .catalog-pager button:disabled {
-    opacity: 0.4;
-  }
-  .space-grid {
-    position: relative;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    padding-bottom: 0.75rem;
-  }
-  .space-grid > article {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-  }
-}
-@media (min-width: 1470px) {
-  .space-grid {
-    overflow-y: auto;
-    max-height: max(28rem, calc(76dvh / var(--page-zoom, 1)));
-    scrollbar-gutter: stable;
-    padding: 3px;
-  }
-}
 .space-card {
   border: 0.0625rem solid transparent;
   border-radius: 0.8125rem;
