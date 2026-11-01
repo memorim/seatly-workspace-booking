@@ -486,6 +486,8 @@ export default function App() {
     [moving, setMoving] = useState<number | null>(null);
   const [email, setEmail] = useState('guest@seatly.example');
   const dialog = useRef<HTMLDialogElement>(null);
+  const catalog = useRef<HTMLDivElement>(null);
+  const [cardIndex, setCardIndex] = useState(0);
   const load = async () => {
     setLoading(true);
     setError('');
@@ -581,6 +583,14 @@ export default function App() {
     } catch {
       setError('Не удалось сохранить избранное: проверьте доступ к хранилищу браузера');
     }
+  };
+  useEffect(() => {
+    if (catalog.current) catalog.current.scrollLeft = 0;
+    setCardIndex(0);
+  }, [visible]);
+  const scrollCard = (step: number) => {
+    const card = catalog.current?.children[cardIndex + step] as HTMLElement | undefined;
+    if (card) catalog.current?.scrollTo({ left: card.offsetLeft, behavior: 'auto' });
   };
   const status: Record<string, string> = {
     pending: 'Ожидает подтверждения',
@@ -712,21 +722,58 @@ export default function App() {
             {loading ? (
               <p role="status">Подбираем пространства…</p>
             ) : (
-              <div className="space-grid">
-                {visible.map((space) => (
-                  <SpaceCard
-                    key={space.id}
-                    space={space}
-                    selected={selected?.id === space.id}
-                    liked={favorites.includes(space.id)}
-                    onLike={() => like(space.id)}
-                    onSelect={() => {
-                      setSelected(space);
-                      setMobilePanel(true);
-                    }}
-                  />
-                ))}
-              </div>
+              <>
+                {visible.length > 1 && (
+                  <div className="catalog-pager">
+                    <button
+                      aria-label="Предыдущее пространство"
+                      disabled={cardIndex === 0}
+                      onClick={() => scrollCard(-1)}
+                    >
+                      ←
+                    </button>
+                    <span aria-live="polite">
+                      {cardIndex + 1} из {visible.length}
+                    </span>
+                    <button
+                      aria-label="Следующее пространство"
+                      disabled={cardIndex >= visible.length - 1}
+                      onClick={() => scrollCard(1)}
+                    >
+                      →
+                    </button>
+                  </div>
+                )}
+                <div
+                  className="space-grid"
+                  ref={catalog}
+                  role="region"
+                  aria-label="Каталог пространств"
+                  tabIndex={0}
+                  onScroll={(event) => {
+                    const grid = event.currentTarget;
+                    const cards = Array.from(grid.children) as HTMLElement[];
+                    const index = cards.findIndex(
+                      (card) => card.offsetLeft + card.offsetWidth / 2 > grid.scrollLeft,
+                    );
+                    if (index >= 0) setCardIndex(index);
+                  }}
+                >
+                  {visible.map((space) => (
+                    <SpaceCard
+                      key={space.id}
+                      space={space}
+                      selected={selected?.id === space.id}
+                      liked={favorites.includes(space.id)}
+                      onLike={() => like(space.id)}
+                      onSelect={() => {
+                        setSelected(space);
+                        setMobilePanel(true);
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
             )}
             {!loading && !error && visible.length === 0 && (
               <div className="empty">
