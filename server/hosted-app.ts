@@ -43,6 +43,10 @@ export function createHostedApp(store: PostgresStore, log?: LogSink): Express {
     },
   };
   const app = express();
+  app.use('/api', (_req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    next();
+  });
   const revision = /^[a-f0-9]{40}$/i.test(process.env.APP_REVISION || '')
     ? process.env.APP_REVISION
     : process.env.RENDER_GIT_COMMIT || 'local-unversioned';
