@@ -1,3 +1,4 @@
+/* global document, innerWidth, scrollTo */
 import { chromium } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import { createApp } from '../server/app.ts';
