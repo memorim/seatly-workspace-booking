@@ -1,4 +1,4 @@
-/* global document, innerWidth, scrollTo */
+/* global document, innerWidth, scrollTo, requestAnimationFrame */
 import { chromium } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import { createApp } from '../server/app.ts';
@@ -26,8 +26,22 @@ try {
     await page.waitForFunction(() =>
       [...document.images].every((image) => image.complete && image.naturalWidth > 0),
     );
+    for (const photo of await page.locator('.space-card img').all()) {
+      await photo.scrollIntoViewIfNeeded();
+      await photo.evaluate((image) => image.decode());
+    }
+    await page.getByRole('region', { name: 'Каталог пространств' }).evaluate((catalog) => {
+      catalog.scrollTop = 0;
+    });
     await page.evaluate(() => scrollTo(0, 0));
-    await page.screenshot({ path: 'readme-captures/' + name + '.png', fullPage: true });
+    await page.evaluate(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+    );
+    await page.screenshot({
+      path: 'readme-captures/' + name + '.png',
+      fullPage: true,
+      animations: 'disabled',
+    });
     await page.close();
   }
 } finally {
