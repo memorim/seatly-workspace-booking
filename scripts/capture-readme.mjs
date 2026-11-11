@@ -20,9 +20,11 @@ try {
     await page.getByRole('region', { name: 'Каталог пространств' }).waitFor();
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth))
       throw new Error(name + ' page has horizontal overflow');
-    await page.locator('.space-card img').first().scrollIntoViewIfNeeded();
+    await page.evaluate(() => {
+      for (const image of document.images) image.loading = 'eager';
+    });
     await page.waitForFunction(() =>
-      [...document.images].some((image) => image.complete && image.naturalWidth > 0),
+      [...document.images].every((image) => image.complete && image.naturalWidth > 0),
     );
     await page.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: 'readme-captures/' + name + '.png', fullPage: true });
