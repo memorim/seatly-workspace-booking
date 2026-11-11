@@ -4,6 +4,7 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 45000,
+  globalTimeout: 10 * 60 * 1000,
   retries: process.env.CI ? 1 : 0,
   use: { baseURL: 'http://127.0.0.1:4240', trace: 'retain-on-failure' },
   projects: ['chromium', 'firefox', 'webkit'].flatMap((browserName) => [
