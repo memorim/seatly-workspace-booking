@@ -712,7 +712,12 @@ export default function App() {
             {loading ? (
               <p role="status">Подбираем пространства…</p>
             ) : (
-              <div className="space-grid">
+              <div
+                className="space-grid"
+                role="region"
+                aria-label="Каталог пространств"
+                tabIndex={0}
+              >
                 {visible.map((space) => (
                   <SpaceCard
                     key={space.id}

@@ -1381,3 +1381,20 @@ textarea:focus-visible {
     zoom: var(--page-zoom);
   }
 }
+
+/* Keep the catalogue browsable alongside the booking details. */
+@media (min-width: 881px) {
+  .space-grid {
+    max-height: 44rem;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #a6a094 transparent;
+    padding: 0.25rem 0.5rem 0.75rem 0.25rem;
+    align-content: start;
+  }
+}
+.space-grid:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
