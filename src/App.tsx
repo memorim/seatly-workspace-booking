@@ -1012,11 +1012,22 @@ export default function App() {
             }}
           >
             <label>
-              Демонстрационный аккаунт
-              <select name="email" value={email} onChange={(e) => setEmail(e.target.value)}>
-                <option value="guest@seatly.example">Гость</option>
-                <option value="owner@seatly.example">Владелец</option>
-              </select>
+              {mode === 'public' ? 'Почта' : 'Демонстрационный аккаунт'}
+              {mode === 'public' ? (
+                <input
+                  name="email"
+                  type="email"
+                  autoComplete="username"
+                  required
+                  maxLength={120}
+                  placeholder="you@example.com"
+                />
+              ) : (
+                <select name="email" value={email} onChange={(e) => setEmail(e.target.value)}>
+                  <option value="guest@seatly.example">Гость</option>
+                  <option value="owner@seatly.example">Владелец</option>
+                </select>
+              )}
             </label>
             <label>
               Пароль
@@ -1028,7 +1039,9 @@ export default function App() {
                 maxLength={128}
               />
             </label>
-            <p>Демо-пароль: {email.startsWith('guest') ? 'GuestDemo2026!' : 'OwnerDemo2026!'}</p>
+            {mode !== 'public' && (
+              <p>Демо-пароль: {email.startsWith('guest') ? 'GuestDemo2026!' : 'OwnerDemo2026!'}</p>
+            )}
             <button className="dark-button" disabled={accountLoading}>
               Войти в аккаунт
             </button>
