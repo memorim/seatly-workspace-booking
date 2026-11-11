@@ -43,7 +43,7 @@ export function createHostedApp(store: PostgresStore, log?: LogSink): Express {
     },
   };
   const app = express();
-  app.use('/api', (_req, res, next) => {
+  app.use((_req, res, next) => {
     res.set('Cache-Control', 'no-store');
     next();
   });
@@ -304,7 +304,9 @@ export function createHostedApp(store: PostgresStore, log?: LogSink): Express {
   const dist = resolve('dist');
   if (existsSync(dist)) {
     app.use(express.static(dist));
-    app.get(/^(?!\/api(?:\/|$)).*/, (_req, res) => res.sendFile(resolve(dist, 'index.html')));
+    app.get(/^(?!\/api(?:\/|$)|\/assets\/|\/photos\/).*/, (_req, res) =>
+      res.sendFile(resolve(dist, 'index.html')),
+    );
   }
   app.use((_req, res) => res.status(404).json({ message: 'Маршрут не найден' }));
   app.use(safeError);
