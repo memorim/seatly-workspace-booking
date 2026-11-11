@@ -45,6 +45,7 @@ a {
   border-bottom: 0.0625rem solid var(--line);
 }
 .logo {
+  color: var(--ink);
   display: flex;
   align-items: center;
   gap: 0.5625rem;
@@ -1188,6 +1189,10 @@ button:disabled {
   padding: 0.9375rem 2.25rem 0;
   display: flex;
   justify-content: flex-end;
+}
+.demo-launch .filter-button {
+  font-size: 0.75rem;
+  min-height: 2rem;
 }
 @media (max-width: 500px) {
   .demo-launch {
