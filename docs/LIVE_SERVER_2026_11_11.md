@@ -23,3 +23,6 @@ HTML и API отдают Cache-Control: no-store. Отсутствующий ф�
 ## Мониторинг
 
 Pulsewatch monitor_id=4 переведён на новый API с сохранением истории. Штатная проверка 13:22:00.655 UTC: HTTP 200, 129 мс, error=null, operational. Все четыре наблюдаемые цели доступны.
+
+
+Снимки README обновлены после загрузки всех фотографий и шрифтов в Chromium (1920×1080 и 390×844, полная страница). [Артефакт readme-captures](https://github.com/memorim/seatly-workspace-booking/actions/runs/43035630721) сформирован успешно; проверка переполнения страницы прошла.
